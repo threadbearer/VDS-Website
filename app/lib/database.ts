@@ -145,3 +145,108 @@ export async function saveMessage({
     return null;
   }
 }
+
+export interface CreateLeadParams {
+  sessionId: string;
+  businessName: string;
+  phoneNumber: string;
+  industry: string;
+}
+
+/**
+ * Creates or updates a lead record with detailed information from the sandbox modal.
+ */
+export async function createLead({
+  sessionId,
+  businessName,
+  phoneNumber,
+  industry,
+}: CreateLeadParams) {
+  if (!supabaseUrl || !supabaseServiceRoleKey || supabaseUrl.includes('your_project_id')) {
+    console.warn('Database lead creation skipped: Missing valid Supabase credentials.');
+    return { id: 'mock_lead_id', success: true };
+  }
+
+  try {
+    // 1. Check for existing lead by session
+    const { data: existingLead, error: lookupError } = await supabase
+      .from('leads')
+      .select('id')
+      .eq('session_id', sessionId)
+      .maybeSingle();
+
+    if (lookupError) throw lookupError;
+
+    if (existingLead) {
+      // Update existing record
+      const { data: updatedLead, error: updateError } = await supabase
+        .from('leads')
+        .update({
+          business_name: businessName,
+          phone_number: phoneNumber,
+          industry: industry,
+          source: 'sandbox-modal',
+        })
+        .eq('id', existingLead.id)
+        .select()
+        .single();
+
+      if (updateError) {
+        console.warn('Retrying lead update without potential missing columns:', updateError.message);
+        // Fallback in case 'industry' column doesn't exist in schema
+        const { data: fallbackLead, error: fallbackError } = await supabase
+          .from('leads')
+          .update({
+            business_name: `${businessName} (${industry})`,
+            phone_number: phoneNumber,
+          })
+          .eq('id', existingLead.id)
+          .select()
+          .single();
+        
+        if (fallbackError) throw fallbackError;
+        return fallbackLead;
+      }
+      return updatedLead;
+    } else {
+      // Insert new record
+      const { data: newLead, error: insertError } = await supabase
+        .from('leads')
+        .insert([
+          {
+            session_id: sessionId,
+            business_name: businessName,
+            phone_number: phoneNumber,
+            industry: industry,
+            source: 'sandbox-modal',
+          },
+        ])
+        .select()
+        .single();
+
+      if (insertError) {
+        console.warn('Retrying lead insert without potential missing columns:', insertError.message);
+        // Fallback in case 'industry' column doesn't exist in schema
+        const { data: fallbackLead, error: fallbackError } = await supabase
+          .from('leads')
+          .insert([
+            {
+              session_id: sessionId,
+              business_name: `${businessName} (${industry})`,
+              phone_number: phoneNumber,
+            },
+          ])
+          .select()
+          .single();
+
+        if (fallbackError) throw fallbackError;
+        return fallbackLead;
+      }
+      return newLead;
+    }
+  } catch (error) {
+    console.error('Error in createLead helper:', error);
+    throw error;
+  }
+}
+
