@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { loginAdmin } from './actions';
 
 export default function LoginForm() {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +15,7 @@ export default function LoginForm() {
     setLoading(true);
 
     try {
-      const result = await loginAdmin(password);
+      const result = await loginAdmin(email, password);
       if (result.success) {
         window.location.reload();
       } else {
@@ -44,21 +45,39 @@ export default function LoginForm() {
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="password" className="sr-only">
-              Admin Password
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="relative block w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-slate-100 placeholder-slate-500 shadow-inner focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm transition-all"
-              placeholder="Enter admin key"
-            />
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="email" className="sr-only">
+                Email Address
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="relative block w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-slate-100 placeholder-slate-500 shadow-inner focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm transition-all"
+                placeholder="Admin Email"
+              />
+            </div>
+            <div>
+              <label htmlFor="password" className="sr-only">
+                Admin Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="relative block w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-slate-100 placeholder-slate-500 shadow-inner focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm transition-all"
+                placeholder="Password"
+              />
+            </div>
           </div>
 
           {error && (

@@ -1,41 +1,40 @@
 'use server';
 
-import { cookies } from 'next/headers';
-import { supabase } from '@/lib/database';
-
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'vegaadmin123';
+import { createClient } from '@/lib/supabase-server';
+import { supabase as serviceRoleDb } from '@/lib/database';
 
 /**
- * Validates the admin password and sets a secure httpOnly cookie if correct.
+ * Validates the admin credentials via Supabase Auth and sets a secure httpOnly cookie if correct.
  */
-export async function loginAdmin(password: string): Promise<{ success: boolean; error?: string }> {
-  if (password === ADMIN_PASSWORD) {
-    const cookieStore = await cookies();
-    cookieStore.set('admin_auth', 'true', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 60 * 60 * 24 * 7, // 1 week
-      path: '/',
-    });
-    return { success: true };
+export async function loginAdmin(email: string, password: string): Promise<{ success: boolean; error?: string }> {
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    return { success: false, error: error.message };
   }
-  return { success: false, error: 'Invalid password' };
+  
+  return { success: true };
 }
 
 /**
- * Clears the admin auth cookie.
+ * Clears the admin auth cookie by signing out of Supabase.
  */
 export async function logoutAdmin() {
-  const cookieStore = await cookies();
-  cookieStore.delete('admin_auth');
+  const supabase = await createClient();
+  await supabase.auth.signOut();
 }
 
 /**
- * Checks if the user is authenticated.
+ * Checks if the user is authenticated via Supabase session.
  */
 export async function isUserAuthenticated(): Promise<boolean> {
-  const cookieStore = await cookies();
-  return cookieStore.get('admin_auth')?.value === 'true';
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
+  return !error && data?.user != null;
 }
 
 export interface ConversationWithLead {
