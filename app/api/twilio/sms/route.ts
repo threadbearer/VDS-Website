@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { openai } from '@ai-sdk/openai';
 import { generateText } from 'ai';
-import { saveMessage } from '@/lib/database';
+import { saveMessage, supabase } from '@/lib/database';
 
 // Note: Twilio webhooks expect standard serverless execution rather than edge streams, 
 // because SMS cannot "stream" text letter-by-letter to a phone screen anyway.
@@ -30,12 +30,28 @@ export async function POST(req: Request) {
         }
 
         // 1.5 Log incoming user message
-        await saveMessage({
+        const saveResult = await saveMessage({
             phone: fromNumber,
             content: userMessage,
             role: 'user',
             source: 'sms',
         });
+
+        // 1.8 Security / AI Mute Check: Check if the operator manually paused this thread
+        if (saveResult?.conversationId) {
+            const { data: conv, error: dbError } = await supabase
+                .from('conversations')
+                .select('is_paused')
+                .eq('id', saveResult.conversationId)
+                .maybeSingle();
+
+            if (conv?.is_paused) {
+                console.log(`[SMS Takeover] Conversation ${saveResult.conversationId} is muted for AI. Skipping automatic response.`);
+                return new Response('<Response />', { 
+                    headers: { 'Content-Type': 'text/xml' } 
+                });
+            }
+        }
 
         // 2. Execute the model logic
         const { text } = await generateText({
