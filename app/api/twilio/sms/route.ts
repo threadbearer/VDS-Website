@@ -1,21 +1,28 @@
 import { NextResponse } from 'next/server';
 import { openai } from '@ai-sdk/openai';
-import { generateText } from 'ai';
-import { saveMessage, supabase } from '@/lib/database';
+import { generateText, tool, stepCountIs } from 'ai';
+import { z } from 'zod';
+import { saveMessage, createLead, supabase } from '@/lib/database';
+import { findRelevantKnowledge } from '@/lib/rag';
+import { notifyAgencyOfLead } from '@/lib/mail';
 
-// Note: Twilio webhooks expect standard serverless execution rather than edge streams, 
-// because SMS cannot "stream" text letter-by-letter to a phone screen anyway.
 export const runtime = 'nodejs';
 
 const SMS_SYSTEM_PROMPT = `
-You are Alex, the virtual intake coordinator for Vega Technology Partners in Granada Hills, CA. 
-Your tone is professional, helpful, and concise. 
+# ROLE & PERSONA
+You are Alex, the virtual intake coordinator for Vega Technology Partners.
+Your tone is professional, helpful, and highly concise.
 
+# OBJECTIVE
 Your goal is to qualify inbound leads over text messaging by gathering:
-1. Their name and business type.
-2. Their primary bottleneck.
+1. Their name.
+2. Their business type or primary bottleneck.
 
-CRITICAL: Keep your responses under 160 characters (1 to 2 short sentences max) because this is an SMS interface. Never invent pricing. Offer this booking link when they are qualified: https://calendly.com/vega-tech-partners
+# CRITICAL CONSTRAINTS
+- Keep your responses UNDER 160 characters (1 to 2 short sentences max). 
+- This is an SMS interface; long messages will be split and look unprofessional.
+- Once you have gathered their Name, Phone, and Issue, you MUST execute the 'qualifyLead' tool immediately!
+- Offer this booking link ONLY after qualification: https://calendly.com/vega-tech-partners
 `;
 
 export async function POST(req: Request) {
@@ -29,7 +36,7 @@ export async function POST(req: Request) {
             return new Response('<Response />', { headers: { 'Content-Type': 'text/xml' } });
         }
 
-        // 1.5 Log incoming user message
+        // 2. Log incoming user message & fetch/create conversation
         const saveResult = await saveMessage({
             phone: fromNumber,
             content: userMessage,
@@ -37,30 +44,96 @@ export async function POST(req: Request) {
             source: 'sms',
         });
 
-        // 1.8 Security / AI Mute Check: Check if the operator manually paused this thread
-        if (saveResult?.conversationId) {
-            const { data: conv, error: dbError } = await supabase
+        const conversationId = saveResult?.conversationId;
+
+        // 3. Check if the operator has manually paused this thread
+        if (conversationId) {
+            const { data: conv } = await supabase
                 .from('conversations')
                 .select('is_paused')
-                .eq('id', saveResult.conversationId)
+                .eq('id', conversationId)
                 .maybeSingle();
 
             if (conv?.is_paused) {
-                console.log(`[SMS Takeover] Conversation ${saveResult.conversationId} is muted for AI. Skipping automatic response.`);
-                return new Response('<Response />', { 
-                    headers: { 'Content-Type': 'text/xml' } 
-                });
+                console.log(`[SMS Takeover] Thread ${conversationId} is muted. Skipping response.`);
+                return new Response('<Response />', { headers: { 'Content-Type': 'text/xml' } });
             }
         }
 
-        // 2. Execute the model logic
+        // 4. Retrieve Dynamic Knowledge (RAG)
+        const ragContext = await findRelevantKnowledge(userMessage);
+        const finalSystemPrompt = `${SMS_SYSTEM_PROMPT}
+
+${ragContext ? `# FIRM KNOWLEDGE BASE\nUse this info to answer questions:\n${ragContext}` : ''}
+`;
+
+        // 5. Fetch full conversation history for total-recall context
+        let conversationMessages: Array<{ role: 'user' | 'assistant', content: string }> = [];
+        
+        if (conversationId) {
+            const { data: history } = await supabase
+                .from('messages')
+                .select('role, content')
+                .eq('conversation_id', conversationId)
+                .order('created_at', { ascending: true });
+
+            if (history && history.length > 0) {
+                conversationMessages = history.map((msg: any) => ({
+                    role: msg.role === 'user' ? 'user' : 'assistant',
+                    content: msg.content,
+                }));
+            }
+        }
+
+        // Fallback if database fetch fails
+        if (conversationMessages.length === 0) {
+            conversationMessages = [{ role: 'user', content: userMessage }];
+        }
+
+        // 6. Generate response using Multi-Step AI Loop
         const { text } = await generateText({
             model: openai('gpt-4o-mini'),
-            system: SMS_SYSTEM_PROMPT,
-            prompt: userMessage,
+            system: finalSystemPrompt,
+            messages: conversationMessages,
+            stopWhen: stepCountIs(5), // Use stopWhen condition for AI SDK v5 looping limits
+            tools: {
+                qualifyLead: tool({
+                    description: 'Registers the lead in CRM. Execute immediately when you have their Name, Phone, and Issue.',
+                    inputSchema: z.object({
+                        name: z.string().describe('Full name'),
+                        issue: z.string().describe('Primary business bottleneck'),
+                    }),
+                    execute: async ({ name, issue }) => {
+                        console.log('--- SMS AI TOOL: qualifyLead ---', { name, issue });
+                        if (conversationId) {
+                            try {
+                                await createLead({
+                                    sessionId: conversationId, // Pass conversation ID as session identifier for SMS
+                                    businessName: `${name} - SMS`,
+                                    phoneNumber: fromNumber,
+                                    industry: 'agency',
+                                });
+
+                                // Dispatch real-time agency notification
+                                notifyAgencyOfLead({
+                                    name,
+                                    phone: fromNumber,
+                                    issue,
+                                    source: 'SMS Bot'
+                                }).catch(e => console.error('SMS lead email alert failed:', e));
+
+                                return `Lead saved successfully. Send them the final short reply and scheduling link.`;
+                            } catch (e) {
+                                console.error('SMS CRM write failed:', e);
+                            }
+                        }
+                        return 'Success';
+                    }
+                })
+            }
         });
 
-        // 2.5 Log outgoing AI message
+        // 7. Log outgoing AI response to database
         await saveMessage({
             phone: fromNumber,
             content: text,
@@ -68,7 +141,7 @@ export async function POST(req: Request) {
             source: 'sms',
         });
 
-        // 3. Construct the TwiML XML Response
+        // 8. Construct & Return TwiML Response
         const twimlResponse = `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
     <Message>${text}</Message>
@@ -82,9 +155,8 @@ export async function POST(req: Request) {
             },
         });
     } catch (error) {
-        console.error('Twilio SMS Webhook Error:', error);
-        // Silent failure fallback so Twilio doesn't throw a generic carrier error
-        return new Response('<?xml version="1.0" encoding="UTF-8"?><Response><Message>Thanks for messaging Vega. Our system is busy, but we will text you shortly.</Message></Response>', {
+        console.error('Twilio SMS Webhook Critical Error:', error);
+        return new Response('<?xml version="1.0" encoding="UTF-8"?><Response><Message>Thanks for messaging us. We are checking into this and will text you back shortly!</Message></Response>', {
             headers: { 'Content-Type': 'text/xml' },
         });
     }

@@ -6,8 +6,11 @@ import {
   getConversationMessages, 
   logoutAdmin,
   toggleAIAssistant,
+  getClients,
+  addKnowledge,
   ConversationWithLead, 
-  ChatMessage 
+  ChatMessage,
+  Client
 } from './actions';
 
 export default function AdminDashboard() {
@@ -17,6 +20,13 @@ export default function AdminDashboard() {
   const [loadingMessages, setLoadingMessages] = useState(false);
   const [isRefreshing, startTransition] = useTransition();
 
+  // Multi-Tenant & Knowledge States
+  const [clients, setClients] = useState<Client[]>([]);
+  const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
+  const [showKnowledge, setShowKnowledge] = useState(false);
+  const [knowledgeInput, setKnowledgeInput] = useState('');
+  const [isAddingKnowledge, setIsAddingKnowledge] = useState(false);
+
   // Manual Takeover States
   const [adminInput, setAdminInput] = useState('');
   const [sendingSms, setSendingSms] = useState(false);
@@ -24,20 +34,59 @@ export default function AdminDashboard() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Periodic fetching for the "Live Feed"
-  const refreshFeed = async () => {
+  const refreshFeed = async (clientId?: string | null) => {
     try {
-      const data = await getConversations();
+      const data = await getConversations(clientId !== undefined ? clientId : selectedClientId);
       setConversations(data);
     } catch (err) {
       console.error('Failed to refresh feed', err);
     }
   };
 
+  // Load initial data
   useEffect(() => {
-    refreshFeed();
-    const interval = setInterval(refreshFeed, 8000); // Poll every 8 seconds
+    const loadInitialData = async () => {
+      try {
+        const clientList = await getClients();
+        setClients(clientList);
+      } catch (e) {
+        console.error('Failed to load clients list', e);
+      }
+      refreshFeed(null);
+    };
+    
+    loadInitialData();
+    const interval = setInterval(() => refreshFeed(), 8000); // Poll every 8 seconds
     return () => clearInterval(interval);
   }, []);
+
+  // Re-trigger feed refresh when active tenant filter changes
+  useEffect(() => {
+    refreshFeed(selectedClientId);
+  }, [selectedClientId]);
+
+  // Handle Quick RAG Ingestion
+  const handleAddKnowledge = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedClientId || !knowledgeInput.trim() || isAddingKnowledge) return;
+
+    setIsAddingKnowledge(true);
+    try {
+      const res = await addKnowledge(selectedClientId, knowledgeInput);
+      if (res.success) {
+        alert('Successfully vectorized and saved document to firm knowledge base!');
+        setKnowledgeInput('');
+        setShowKnowledge(false);
+      } else {
+        alert(`Failed to vectorize document: ${res.error}`);
+      }
+    } catch (err) {
+      console.error('Embedding dispatch error:', err);
+      alert('Network failure while saving vector document.');
+    } finally {
+      setIsAddingKnowledge(false);
+    }
+  };
 
   // Load messages when a conversation is clicked
   useEffect(() => {
@@ -222,6 +271,65 @@ export default function AdminDashboard() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
           </button>
+        </div>
+
+        {/* Multi-Tenant Filter and Direct Knowledge Ingestion */}
+        <div className="px-6 py-4 border-b border-slate-800/60 bg-slate-950/20 space-y-3">
+          <div>
+            <label className="block text-[9px] font-black uppercase tracking-widest text-slate-500 mb-1.5">Active Tenant</label>
+            <select 
+              value={selectedClientId || ''} 
+              onChange={(e) => setSelectedClientId(e.target.value || null)}
+              className="w-full bg-slate-950 border border-slate-800 text-[11px] font-medium text-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-sky-500/60 shadow-inner transition-all cursor-pointer"
+            >
+              <option value="">🌎 All Enterprise Clients</option>
+              {clients.map(c => (
+                <option key={c.id} value={c.id}>💼 {c.name}</option>
+              ))}
+            </select>
+          </div>
+
+          {selectedClientId && (
+            <div className="border-t border-slate-800/40 pt-2.5">
+              <button 
+                onClick={() => setShowKnowledge(!showKnowledge)}
+                className="flex items-center gap-1.5 text-[10px] font-extrabold tracking-wider uppercase text-sky-400 hover:text-sky-300 transition-colors focus:outline-none"
+              >
+                <svg className={`h-3 w-3 transition-transform duration-200 ${showKnowledge ? 'rotate-45 text-amber-500' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+                Manage Firm Knowledge
+              </button>
+              
+              {showKnowledge && (
+                <form onSubmit={handleAddKnowledge} className="mt-2.5 space-y-2 animate-in slide-in-from-top-2 duration-200">
+                  <textarea 
+                    value={knowledgeInput}
+                    onChange={(e) => setKnowledgeInput(e.target.value)}
+                    placeholder="Paste pricing, services, policies, or general context to vectorize..."
+                    rows={3}
+                    className="w-full bg-slate-950 border border-slate-800 text-[11px] text-slate-300 rounded-lg p-2.5 focus:outline-none focus:border-sky-500/50 placeholder-slate-600 leading-relaxed shadow-inner"
+                    required
+                  />
+                  <button 
+                    type="submit"
+                    disabled={isAddingKnowledge}
+                    className="w-full flex items-center justify-center bg-sky-600/80 hover:bg-sky-600 text-[9px] font-black uppercase tracking-widest py-2 rounded-lg text-white disabled:opacity-50 disabled:hover:bg-sky-600/80 transition-all shadow-md shadow-sky-950/50"
+                  >
+                    {isAddingKnowledge ? (
+                      <>
+                        <svg className="animate-spin h-3 w-3 mr-1.5 text-white" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                        </svg>
+                        Generating Embeddings...
+                      </>
+                    ) : 'Train AI Vector'}
+                  </button>
+                </form>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Scrollable Conv List */}

@@ -1,7 +1,9 @@
 'use server';
 
 import { createClient } from '@/lib/supabase-server';
-import { supabase as serviceRoleDb } from '@/lib/database';
+import { supabase } from '@/lib/database';
+import { embed } from 'ai';
+import { openai } from '@ai-sdk/openai';
 
 /**
  * Validates the admin credentials via Supabase Auth and sets a secure httpOnly cookie if correct.
@@ -59,22 +61,46 @@ export interface ConversationWithLead {
   };
 }
 
+export interface Client {
+  id: string;
+  name: string;
+  created_at: string;
+}
+
 /**
- * Fetches all conversations with their associated lead information.
+ * Fetches all registered clients for multi-tenant admin management.
  */
-export async function getConversations(): Promise<ConversationWithLead[]> {
+export async function getClients(): Promise<Client[]> {
+  const authenticated = await isUserAuthenticated();
+  if (!authenticated) throw new Error('Unauthorized');
+
+  try {
+    const { data, error } = await supabase.from('clients').select('*').order('name', { ascending: true });
+    if (error) throw error;
+    return data || [];
+  } catch (e) {
+    console.error('Failed to fetch clients:', e);
+    return [];
+  }
+}
+
+/**
+ * Fetches conversations, optionally filtered by Client ID.
+ */
+export async function getConversations(clientId?: string | null): Promise<ConversationWithLead[]> {
   const authenticated = await isUserAuthenticated();
   if (!authenticated) {
     throw new Error('Unauthorized');
   }
 
   try {
-    // Fetch conversations joined with leads
-    const { data, error } = await supabase
+    // Fetch conversations joined with leads, filtered by client_id if provided
+    let query = supabase
       .from('conversations')
       .select(`
         id,
         lead_id,
+        client_id,
         source,
         status,
         is_paused,
@@ -87,8 +113,13 @@ export async function getConversations(): Promise<ConversationWithLead[]> {
           business_name,
           created_at
         )
-      `)
-      .order('updated_at', { ascending: false });
+      `);
+
+    if (clientId) {
+      query = query.eq('client_id', clientId);
+    }
+
+    const { data, error } = await query.order('updated_at', { ascending: false });
 
     if (error) throw error;
 
@@ -171,5 +202,43 @@ export async function toggleAIAssistant(conversationId: string, isPaused: boolea
   } catch (err) {
     console.error('Failed to toggle AI Assistant:', err);
     return false;
+  }
+}
+
+/**
+ * Generates an OpenAI embedding for text content and uploads it to the Supabase vector knowledge base.
+ */
+export async function addKnowledge(clientId: string, content: string): Promise<{ success: boolean; error?: string }> {
+  const authenticated = await isUserAuthenticated();
+  if (!authenticated) throw new Error('Unauthorized');
+
+  try {
+    if (!clientId || !content.trim()) {
+      return { success: false, error: 'Client ID and content are required' };
+    }
+
+    // 1. Generate OpenAI embedding
+    const { embedding } = await embed({
+      model: openai.embedding('text-embedding-3-small'),
+      value: content.trim(),
+    });
+
+    // 2. Insert to Supabase
+    const { error } = await supabase
+      .from('knowledge_base')
+      .insert([
+        {
+          client_id: clientId,
+          content: content.trim(),
+          embedding: embedding,
+          metadata: { source: 'admin-portal-upload', uploaded_at: new Date().toISOString() }
+        }
+      ]);
+
+    if (error) throw error;
+    return { success: true };
+  } catch (e: any) {
+    console.error('Failed to add document to knowledge base:', e);
+    return { success: false, error: e.message || 'Database write failed' };
   }
 }

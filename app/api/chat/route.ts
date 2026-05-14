@@ -1,11 +1,12 @@
 import { openai } from '@ai-sdk/openai';
-import { streamText, tool } from 'ai';
+import { streamText, tool, stepCountIs } from 'ai';
 import { z } from 'zod';
 import { saveMessage, createLead } from '@/lib/database';
 import { findRelevantKnowledge } from '@/lib/rag';
+import { notifyAgencyOfLead } from '@/lib/mail';
 
-// Force the route to run on Vercel's global Edge Network for low latency
-export const runtime = 'edge';
+// Using standard nodejs runtime to support shared backend notification integrations (SMTP/Nodemailer)
+export const runtime = 'nodejs';
 
 // Define predefined industry prompts
 const INDUSTRY_PROMPTS: Record<string, string> = {
@@ -106,15 +107,13 @@ export async function POST(req: Request) {
 
         // 2. Build Final Prompt
         const systemPromptBase = INDUSTRY_PROMPTS[industry] || INDUSTRY_PROMPTS.agency;
-        const finalSystemPrompt = \`\${systemPromptBase}
+        const finalSystemPrompt = `${systemPromptBase}
 
-\${ragContext ? \`# FIRM KNOWLEDGE BASE\\nUse the following strictly verified knowledge to answer questions:\\n\${ragContext}\` : ''}
-\`;
+${ragContext ? `# FIRM KNOWLEDGE BASE\nUse the following strictly verified knowledge to answer questions:\n${ragContext}` : ''}
+`;
 
         // 3. Log incoming user message
         if (sessionId && userLastMessage && userLastMessage.role === 'user') {
-            // Note: edge functions can't safely 'await' without blocking the stream start, 
-            // but we do it here since it's fast.
             await saveMessage({
                 sessionId,
                 content: userLastMessage.content,
@@ -126,15 +125,15 @@ export async function POST(req: Request) {
         // 4. Call OpenAI using gpt-4o-mini with Tools
         const result = await streamText({
             model: openai('gpt-4o-mini'),
-            maxSteps: 5, // Allow the model to call the tool and then send a follow-up response
+            stopWhen: stepCountIs(5), // Limit sequential LLM loops in AI SDK v5
             messages: [
                 { role: 'system', content: finalSystemPrompt },
                 ...messages
             ],
             tools: {
                 qualifyLead: tool({
-                    description: 'Execute this tool IMMEDIATELY once you have gathered the user\\'s name, phone number, and their primary issue/bottleneck. This registers them securely into the firm\\'s CRM.',
-                    parameters: z.object({
+                    description: "Execute this tool IMMEDIATELY once you have gathered the user's name, phone number, and their primary issue/bottleneck. This registers them securely into the firm's CRM.",
+                    inputSchema: z.object({
                         name: z.string().describe('The full name of the prospect/lead'),
                         phone: z.string().describe('The phone number of the prospect/lead'),
                         issue: z.string().describe('A concise summary of their primary issue or what they need help with'),
@@ -145,11 +144,20 @@ export async function POST(req: Request) {
                             try {
                                 await createLead({
                                     sessionId,
-                                    businessName: \`\${name} - \${issue.substring(0, 30)}\`, 
+                                    businessName: `${name} - ${issue.substring(0, 30)}`, 
                                     phoneNumber: phone,
                                     industry: industry,
                                 });
-                                return \`Successfully saved \${name}'s profile and issue to the CRM. Now provide them the Action/Booking Link and welcome them.\`;
+                                
+                                // Fire-and-forget real-time email notification to agency
+                                notifyAgencyOfLead({
+                                    name,
+                                    phone,
+                                    issue,
+                                    source: `Web Chat - ${industry}`
+                                }).catch(err => console.error('Background lead notification failed:', err));
+
+                                return `Successfully saved ${name}'s profile and issue to the CRM. Now provide them the Action/Booking Link and welcome them.`;
                             } catch (e) {
                                 console.error('Failed to create lead via tool:', e);
                                 return 'Failed to save to CRM due to an internal error. Please ask them to reach out via email instead.';

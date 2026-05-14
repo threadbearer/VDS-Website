@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
-import nodemailer from "nodemailer";
+import { sendMail } from "@/lib/mail";
 
 export const runtime = "nodejs";
 
@@ -13,14 +12,6 @@ interface LeadPayload {
   timestamp?: string;
 }
 
-interface SendMailParams {
-  to: string | string[];
-  subject: string;
-  html: string;
-  text: string;
-  replyTo?: string;
-}
-
 function textSummary({ email, projectType, budget, timeline, source, timestamp }: LeadPayload): string {
   return `New Vega lead
 ————————
@@ -30,46 +21,6 @@ Budget: ${budget || "—"}
 Timeline: ${timeline || "—"}
 Source: ${source || "chat-qualifier"}
 When: ${timestamp || new Date().toISOString()}`;
-}
-
-async function sendMail({ to, subject, html, text, replyTo }: SendMailParams): Promise<boolean> {
-  if (process.env.RESEND_API_KEY) {
-    try {
-      const resend = new Resend(process.env.RESEND_API_KEY);
-      await resend.emails.send({
-        from: "Vega Leads <noreply@vegadesign.studio>",
-        to: Array.isArray(to) ? to : [to],
-        subject, 
-        html, 
-        text,
-        ...(replyTo ? { reply_to: replyTo } : {}),
-      });
-      return true;
-    } catch (e) { /* fall through */ }
-  }
-  
-  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
-  if (!(SMTP_HOST && SMTP_PORT && SMTP_USER && SMTP_PASS)) {
-    throw new Error("Email provider not configured");
-  }
-
-  const transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: Number(SMTP_PORT),
-    secure: Number(SMTP_PORT) === 465,
-    auth: { user: SMTP_USER, pass: SMTP_PASS }
-  });
-
-  await transporter.sendMail({ 
-    from: `Vega Leads <${SMTP_USER}>`, 
-    to, 
-    subject, 
-    html, 
-    text, 
-    ...(replyTo ? { replyTo } : {}) 
-  });
-  
-  return true;
 }
 
 export async function POST(req: NextRequest) {
