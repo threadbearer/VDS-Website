@@ -15,6 +15,8 @@ import {
   Code2,
   Zap,
   BarChart3,
+  Download,
+  RefreshCw,
 } from 'lucide-react';
 import { Container } from '@/ui/elements';
 import { BOOKING } from '@/information';
@@ -94,7 +96,7 @@ function GaugeScore({ score, animate }: { score: number; animate: boolean }) {
   }, [score, animate]);
 
   return (
-    <div className="relative flex flex-col items-center justify-center">
+    <div className="relative flex flex-col items-center justify-center print:scale-90">
       <svg width="220" height="170" viewBox="0 0 220 170" className="overflow-visible">
         {/* Background arc */}
         <circle
@@ -108,6 +110,7 @@ function GaugeScore({ score, animate }: { score: number; animate: boolean }) {
           strokeDashoffset="0"
           strokeLinecap="round"
           transform="rotate(135, 110, 130)"
+          className="print:stroke-slate-100"
         />
         {/* Colored score arc */}
         <circle
@@ -135,6 +138,7 @@ function GaugeScore({ score, animate }: { score: number; animate: boolean }) {
           fontSize="52"
           fontWeight="700"
           fontFamily="Outfit, sans-serif"
+          className="fill-white print:fill-slate-900"
         >
           {displayed}
         </text>
@@ -146,12 +150,13 @@ function GaugeScore({ score, animate }: { score: number; animate: boolean }) {
           fontSize="13"
           fontFamily="Inter, sans-serif"
           letterSpacing="3"
+          className="fill-neutral-400 print:fill-slate-500"
         >
           AEO SCORE
         </text>
         {/* Min / Max labels */}
-        <text x="18" y="155" fill="rgba(255,255,255,0.25)" fontSize="11" fontFamily="Inter, sans-serif">0</text>
-        <text x="193" y="155" fill="rgba(255,255,255,0.25)" fontSize="11" fontFamily="Inter, sans-serif">100</text>
+        <text x="18" y="155" fill="rgba(255,255,255,0.25)" fontSize="11" fontFamily="Inter, sans-serif" className="fill-neutral-600 print:fill-slate-400">0</text>
+        <text x="193" y="155" fill="rgba(255,255,255,0.25)" fontSize="11" fontFamily="Inter, sans-serif" className="fill-neutral-600 print:fill-slate-400">100</text>
       </svg>
     </div>
   );
@@ -173,24 +178,24 @@ function StatusLight({
 
   return (
     <div
-      className={`flex-1 rounded-2xl border p-5 flex flex-col gap-3 transition-all duration-300 ${cfg.bg} ${cfg.border}`}
+      className={`flex-1 rounded-2xl border p-5 flex flex-col gap-3 transition-all duration-300 ${cfg.bg} ${cfg.border} print:bg-slate-50 print:border-slate-200 print:p-4 print:break-inside-avoid`}
     >
       <div className="flex items-center justify-between">
-        <div className={`p-2 rounded-xl ${cfg.bg} border ${cfg.border}`}>
-          <Icon className={`h-4 w-4 ${cfg.color}`} />
+        <div className={`p-2 rounded-xl ${cfg.bg} border ${cfg.border} print:bg-white print:border-slate-200`}>
+          <Icon className={`h-4 w-4 ${cfg.color} print:text-slate-700`} />
         </div>
         <div className="flex items-center gap-1.5">
-          <span className={`h-2 w-2 rounded-full ${cfg.dot} animate-pulse`} />
-          <span className={`text-[10px] font-bold uppercase tracking-widest ${cfg.color}`}>
+          <span className={`h-2 w-2 rounded-full ${cfg.dot} animate-pulse print:animate-none print:bg-slate-400`} />
+          <span className={`text-[10px] font-bold uppercase tracking-widest ${cfg.color} print:text-slate-700`}>
             {cfg.label}
           </span>
         </div>
       </div>
       <div>
-        <p className="text-sm font-bold text-white mb-0.5">{label}</p>
-        <p className="text-[11px] text-neutral-500 leading-relaxed">{subLabel}</p>
+        <p className="text-sm font-bold text-white mb-0.5 print:text-slate-900">{label}</p>
+        <p className="text-[11px] text-neutral-500 leading-relaxed print:text-slate-500">{subLabel}</p>
       </div>
-      <StatusIcon className={`h-5 w-5 ${cfg.color} mt-auto`} />
+      <StatusIcon className={`h-5 w-5 ${cfg.color} print:text-slate-700 mt-auto`} />
     </div>
   );
 }
@@ -207,7 +212,7 @@ function ScanAnimation({ step }: { step: number }) {
             style={{
               width: `${(i + 1) * 40}%`,
               height: `${(i + 1) * 40}%`,
-              animation: `radar-ping 2s ease-out ${i * 0.5}s infinite`,
+              animation: `ping 2s ease-out ${i * 0.5}s infinite`,
               opacity: 0,
             }}
           />
@@ -269,7 +274,16 @@ export default function AuditClient() {
   const [result, setResult] = useState<AuditResult | null>(null);
   const [errorMsg, setErrorMsg] = useState('');
   const [gaugeAnimate, setGaugeAnimate] = useState(false);
+  const [isPrinting, setIsPrinting] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
+
+  const handleDownloadPDF = () => {
+    setIsPrinting(true);
+    setTimeout(() => {
+      window.print();
+      setIsPrinting(false);
+    }, 500);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -333,9 +347,27 @@ export default function AuditClient() {
   const isLowScore = result && result.score < 70;
 
   return (
-    <div className="min-h-screen bg-black text-white relative">
+    <div className="min-h-screen bg-black text-white relative print:bg-white print:text-slate-900 print:min-h-0">
+      {/* Global Print Engine Stylesheet */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        @media print {
+          nav, header[role="banner"], footer, aside, .chat-widget-container, iframe {
+            display: none !important;
+          }
+          body, html {
+            background-color: white !important;
+            color: #0f172a !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+          @page {
+            margin: 1.5cm;
+          }
+        }
+      ` }} />
+
       {/* Ambient background */}
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden print:hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-cyan-500/5 rounded-full blur-[120px]" />
         <div
           className="absolute inset-0 opacity-[0.015]"
@@ -347,10 +379,10 @@ export default function AuditClient() {
         />
       </div>
 
-      <div className="pt-28 pb-24">
+      <div className="pt-28 pb-24 print:pt-4 print:pb-4">
         <Container>
           {/* ── Hero Header ── */}
-          <header className="text-center max-w-3xl mx-auto mb-14 animate-fade-up">
+          <header className="text-center max-w-3xl mx-auto mb-14 animate-fade-up print:hidden">
             <div className="section-label mb-5 flex items-center justify-center gap-2 tracking-wider">
               <BarChart3 className="h-3.5 w-3.5 text-cyan-400" />
               FREE AEO AUDIT
@@ -370,7 +402,7 @@ export default function AuditClient() {
           </header>
 
           {/* ── Input Form ── */}
-          <section className="max-w-2xl mx-auto mb-16 animate-fade-up delay-1">
+          <section className="max-w-2xl mx-auto mb-16 animate-fade-up delay-1 print:hidden">
             <form
               onSubmit={handleSubmit}
               className="rounded-3xl border border-neutral-800 bg-neutral-950/80 backdrop-blur-md p-6 sm:p-8 shadow-2xl shadow-black/60"
@@ -436,7 +468,7 @@ export default function AuditClient() {
 
           {/* ── Scanning Animation ── */}
           {phase === 'scanning' && (
-            <section className="max-w-md mx-auto animate-fade-in">
+            <section className="max-w-md mx-auto animate-fade-in print:hidden">
               <div className="rounded-3xl border border-neutral-800 bg-neutral-950/80 backdrop-blur-md p-8 shadow-2xl text-center">
                 <p className="text-[10px] font-bold uppercase tracking-widest text-cyan-400 mb-1">
                   Deep Analysis
@@ -451,7 +483,7 @@ export default function AuditClient() {
 
           {/* ── Error State ── */}
           {phase === 'error' && (
-            <section className="max-w-md mx-auto animate-fade-in">
+            <section className="max-w-md mx-auto animate-fade-in print:hidden">
               <div className="rounded-3xl border border-red-900/40 bg-red-950/20 p-8 text-center">
                 <XCircle className="h-10 w-10 text-red-400 mx-auto mb-4" />
                 <h2 className="text-lg font-bold text-white mb-2">Audit Failed</h2>
@@ -468,31 +500,64 @@ export default function AuditClient() {
 
           {/* ── Result Card ── */}
           {phase === 'result' && result && (
-            <section ref={resultRef} className="max-w-2xl mx-auto animate-scale-in">
-              {/* Score Header Card */}
-              <div className="rounded-3xl border border-neutral-800 bg-neutral-950/90 backdrop-blur-md overflow-hidden shadow-2xl shadow-black/80 mb-6">
-                {/* Top accent line */}
-                <div className="h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
+            <section ref={resultRef} className="max-w-2xl mx-auto animate-scale-in print:max-w-none print:w-full print:p-0">
+              {/* Professional Print-Only Header */}
+              <div className="hidden print:flex items-center justify-between border-b border-slate-200 pb-4 mb-8">
+                <div>
+                  <h1 className="text-lg font-bold text-slate-900">Vega Technology Partners</h1>
+                  <p className="text-xs text-slate-500">AI Discovery & AEO Audit Report</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-xs font-mono text-slate-600">URL: {url}</p>
+                  <p className="text-xs text-slate-400">{new Date().toLocaleDateString()}</p>
+                </div>
+              </div>
 
-                <div className="p-8 text-center">
-                  <div className="section-label mb-4 flex items-center justify-center gap-2">
-                    <Zap className="h-3.5 w-3.5 text-cyan-400" />
+              {/* Score Header Card */}
+              <div className="rounded-3xl border border-neutral-800 bg-neutral-950/90 backdrop-blur-md overflow-hidden shadow-2xl shadow-black/80 mb-6 print:border-slate-200 print:bg-white print:shadow-none print:mb-0 print:rounded-2xl print:break-after-page">
+                {/* Top accent line */}
+                <div className="h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent print:hidden" />
+
+                <div className="p-8 text-center print:p-4">
+                  <div className="section-label mb-4 flex items-center justify-center gap-2 print:text-slate-500">
+                    <Zap className="h-3.5 w-3.5 text-cyan-400 print:text-cyan-600" />
                     AI DISCOVERY SCORE
                   </div>
 
                   <GaugeScore score={result.score} animate={gaugeAnimate} />
 
-                  <p className="text-sm text-neutral-400 leading-relaxed max-w-md mx-auto mt-4">
+                  <p className="text-sm text-neutral-400 leading-relaxed max-w-md mx-auto mt-4 print:text-slate-700 print:max-w-none">
                     {result.summary}
                   </p>
+
+                  {/* Download Report Button */}
+                  <div className="flex justify-center mt-6 print:hidden">
+                    <button
+                      onClick={handleDownloadPDF}
+                      disabled={isPrinting}
+                      className="inline-flex items-center gap-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 hover:border-neutral-700 text-white px-5 py-3 text-sm font-medium transition-all duration-200 shadow-lg shadow-black/30 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-70"
+                    >
+                      {isPrinting ? (
+                        <>
+                          <RefreshCw className="h-4 w-4 animate-spin text-cyan-400" />
+                          Preparing Document...
+                        </>
+                      ) : (
+                        <>
+                          <Download className="h-4 w-4 text-cyan-400" />
+                          Download PDF Report
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
 
                 {/* Status Lights Row */}
-                <div className="px-6 pb-8">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-600 mb-4 text-center">
+                <div className="px-6 pb-8 print:px-4 print:pb-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-600 mb-4 text-center print:text-slate-400">
                     Dimension Breakdown
                   </p>
-                  <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex flex-col sm:flex-row gap-3 print:flex-row print:gap-4">
                     <StatusLight
                       label="Visibility"
                       subLabel="Does AI know you?"
@@ -516,21 +581,21 @@ export default function AuditClient() {
               </div>
 
               {/* Fix List Card */}
-              <div className="rounded-3xl border border-neutral-800 bg-neutral-950/80 p-6 sm:p-8 mb-6 shadow-xl">
-                <h2 className="text-base font-bold font-heading text-white mb-1 flex items-center gap-2">
-                  <Sparkles className="h-4 w-4 text-cyan-400" />
+              <div className="rounded-3xl border border-neutral-800 bg-neutral-950/80 p-6 sm:p-8 mb-6 shadow-xl print:border-slate-200 print:bg-white print:shadow-none print:p-6 print:rounded-2xl print:break-inside-avoid">
+                <h2 className="text-base font-bold font-heading text-white mb-1 flex items-center gap-2 print:text-slate-900">
+                  <Sparkles className="h-4 w-4 text-cyan-400 print:text-cyan-600" />
                   Your 3 Priority Fixes
                 </h2>
-                <p className="text-[11px] text-neutral-500 mb-5">
+                <p className="text-[11px] text-neutral-500 mb-5 print:text-slate-500">
                   Implementing these will directly improve how often AI recommends {businessName}.
                 </p>
                 <ol className="space-y-4">
                   {result.fixes.map((fix, i) => (
                     <li key={i} className="flex items-start gap-4">
-                      <div className="flex-shrink-0 h-7 w-7 rounded-full bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-center text-cyan-400 text-xs font-bold">
+                      <div className="flex-shrink-0 h-7 w-7 rounded-full bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-center text-cyan-400 text-xs font-bold print:bg-slate-100 print:border-slate-300 print:text-slate-700">
                         {i + 1}
                       </div>
-                      <p className="text-sm text-neutral-300 leading-relaxed pt-0.5">{fix}</p>
+                      <p className="text-sm text-neutral-300 leading-relaxed pt-0.5 print:text-slate-700">{fix}</p>
                     </li>
                   ))}
                 </ol>
@@ -538,26 +603,26 @@ export default function AuditClient() {
 
               {/* Tier 1 CTA — only shown when score < 70 */}
               {isLowScore && (
-                <div className="rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-950/30 to-neutral-950/80 p-6 sm:p-8 shadow-xl relative overflow-hidden animate-fade-in">
-                  <div className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 bg-amber-500/10 rounded-full blur-3xl" />
+                <div className="rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-950/30 to-neutral-950/80 p-6 sm:p-8 shadow-xl relative overflow-hidden animate-fade-in print:bg-amber-50 print:border-amber-200 print:shadow-none print:break-inside-avoid print:mt-8 print:rounded-2xl print:text-slate-900">
+                  <div className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 bg-amber-500/10 rounded-full blur-3xl print:hidden" />
                   <div className="relative z-10">
                     <div className="flex items-center gap-2 mb-3">
-                      <AlertTriangle className="h-4 w-4 text-amber-400" />
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-amber-400">
+                      <AlertTriangle className="h-4 w-4 text-amber-400 print:text-amber-600" />
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-amber-400 print:text-amber-700">
                         Visibility Alert
                       </span>
                     </div>
-                    <h2 className="text-xl sm:text-2xl font-bold font-heading text-white mb-3 leading-tight">
+                    <h2 className="text-xl sm:text-2xl font-bold font-heading text-white mb-3 leading-tight print:text-slate-900">
                       Your business is invisible to 60% of modern AI searches.
                     </h2>
-                    <p className="text-sm text-neutral-400 mb-6 leading-relaxed max-w-lg">
+                    <p className="text-sm text-neutral-400 mb-6 leading-relaxed max-w-lg print:text-slate-600">
                       A score below 70 means ChatGPT, Gemini, and Claude are actively recommending
                       your competitors. Our{' '}
-                      <span className="text-white font-semibold">Foundation Build (Tier 1)</span>{' '}
+                      <span className="text-white font-semibold print:text-slate-900 print:font-bold">Foundation Build (Tier 1)</span>{' '}
                       fixes your AEO infrastructure in under 14 days — schema markup, citation
                       building, and AI-indexed content.
                     </p>
-                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 print:hidden">
                       <Link
                         href="/services"
                         id="audit-tier1-cta"
@@ -581,17 +646,17 @@ export default function AuditClient() {
 
               {/* High-score CTA */}
               {!isLowScore && (
-                <div className="rounded-3xl border border-emerald-500/20 bg-gradient-to-br from-emerald-950/20 to-neutral-950/80 p-6 sm:p-8 shadow-xl animate-fade-in">
+                <div className="rounded-3xl border border-emerald-500/20 bg-gradient-to-br from-emerald-950/20 to-neutral-950/80 p-6 sm:p-8 shadow-xl animate-fade-in print:bg-emerald-50 print:border-emerald-200 print:shadow-none print:break-inside-avoid print:mt-8 print:rounded-2xl print:text-slate-900">
                   <div className="flex items-center gap-2 mb-3">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400 print:text-emerald-600" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400 print:text-emerald-700">
                       Strong Foundation
                     </span>
                   </div>
-                  <h2 className="text-xl font-bold font-heading text-white mb-3">
+                  <h2 className="text-xl font-bold font-heading text-white mb-3 print:text-slate-900">
                     You have a solid AEO baseline. Let&apos;s scale it.
                   </h2>
-                  <p className="text-sm text-neutral-400 mb-6 leading-relaxed">
+                  <p className="text-sm text-neutral-400 mb-6 leading-relaxed print:text-slate-600">
                     Your score is above 70, but there&apos;s always room to dominate. Our advanced
                     tiers add AI-trained intake agents, voice dispatch, and real-time CRM sync.
                   </p>
@@ -600,7 +665,7 @@ export default function AuditClient() {
                     target="_blank"
                     rel="noopener noreferrer"
                     id="audit-highscore-cta"
-                    className="group inline-flex items-center gap-2 rounded-xl bg-emerald-400 text-black px-6 py-3.5 text-sm font-bold hover:bg-emerald-300 transition-all duration-200 shadow-lg shadow-emerald-500/20 hover:scale-[1.01]"
+                    className="group inline-flex items-center gap-2 rounded-xl bg-emerald-400 text-black px-6 py-3.5 text-sm font-bold hover:bg-emerald-300 transition-all duration-200 shadow-lg shadow-emerald-500/20 hover:scale-[1.01] print:hidden"
                   >
                     Book a Strategy Call
                     <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
@@ -609,7 +674,7 @@ export default function AuditClient() {
               )}
 
               {/* Run another */}
-              <div className="text-center mt-8">
+              <div className="text-center mt-8 print:hidden">
                 <button
                   onClick={handleReset}
                   className="text-xs text-neutral-500 hover:text-neutral-300 underline underline-offset-4 transition-colors"
@@ -622,7 +687,7 @@ export default function AuditClient() {
 
           {/* ── Social Proof Strip ── */}
           {phase === 'idle' && (
-            <section className="max-w-2xl mx-auto animate-fade-up delay-2">
+            <section className="max-w-2xl mx-auto animate-fade-up delay-2 print:hidden">
               <div className="flex flex-wrap items-center justify-center gap-6 opacity-40">
                 {['ChatGPT', 'Gemini', 'Claude', 'Perplexity'].map((name) => (
                   <span
@@ -641,7 +706,13 @@ export default function AuditClient() {
         </Container>
       </div>
 
-
+      {/* Ping animation keyframes */}
+      <style jsx>{`
+        @keyframes ping {
+          0% { transform: scale(0.8); opacity: 0.6; }
+          70%, 100% { transform: scale(2); opacity: 0; }
+        }
+      `}</style>
     </div>
   );
 }

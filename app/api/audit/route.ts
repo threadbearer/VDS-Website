@@ -48,7 +48,7 @@ Status rules: good>=70, warning=40-69, poor<40.`;
     const { text } = await generateText({
       model: openai('gpt-4o-mini'),
       prompt: auditPrompt,
-      maxOutputTokens: 500,
+      maxTokens: 500,
       temperature: 0.4,
     });
 
