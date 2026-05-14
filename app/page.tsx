@@ -1,18 +1,25 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Portfolio from "./components/Portfolio"
+import React from "react";
+import Portfolio from "./components/Portfolio";
 import { Hero } from "./components/Hero";
-import Services from "./components/Services"
+import Services from "./components/Services";
 import Pricing from "./components/Pricing";
 import Process from "./components/Process";
 import About from "./components/About";
 import Footer from "./components/Footer";
-import Chatbot from "./components/Chatbot"
+import Chatbot from "./components/Chatbot";
+
 // --- Shared ---
 const CYAN = "#00FFFF";
-function Container({ children }) {
+
+interface ContainerProps {
+  children: React.ReactNode;
+}
+
+function Container({ children }: ContainerProps) {
   return <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">{children}</div>;
 }
+
 const BOOKING = "https://calendar.app.google/MCoM4jfg2dWgypC47";
 const BRAND = {
   name: "Vega Design Studio",
@@ -37,4 +44,3 @@ export default function Home() {
     </div>
   );
 }
-

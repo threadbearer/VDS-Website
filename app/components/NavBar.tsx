@@ -1,11 +1,10 @@
 'use client'
 import { useState } from "react";
 import Link from "next/link";
-import { Container } from "@/ui/elements";
 import { BRAND, BOOKING } from "@/information";
 
 export default function NavBar() {
-	const [menuOpen, setMenuOpen] = useState(false);
+	const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
 	return (
 		<header className="sticky top-0 z-50 border-b border-white/[0.06]" style={{ background: 'rgba(11,11,11,0.85)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
@@ -45,7 +44,7 @@ export default function NavBar() {
 						<a
 							href={BOOKING}
 							target="_blank"
-							rel="noopener"
+							rel="noopener noreferrer"
 							className="hidden sm:inline-flex rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 hover:opacity-90 hover:scale-[1.02]"
 							style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)', color: '#000' }}
 						>
@@ -91,7 +90,7 @@ export default function NavBar() {
 					<a
 						href={BOOKING}
 						target="_blank"
-						rel="noopener"
+						rel="noopener noreferrer"
 						className="mt-2 rounded-full px-4 py-2 text-sm font-medium text-center text-black"
 						style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}
 					>

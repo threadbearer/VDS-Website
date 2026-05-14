@@ -1,9 +1,16 @@
+interface CaseSummaryProps {
+	tag?: string;
+	blurb?: string;
+	impact?: string[];
+	services?: string[];
+}
+
 export default function CaseSummary({
 	tag,
 	blurb,
 	impact = [],
 	services = [],
-}) {
+}: CaseSummaryProps) {
 	return (
 		<section className="rounded-2xl border border-white/10 bg-white/5 p-6">
 			<div className="text-xs uppercase tracking-wide text-neutral-400">

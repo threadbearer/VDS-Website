@@ -1,5 +1,38 @@
-export const BOOKING = "https://calendar.app.google/MCoM4jfg2dWgypC47";
-export const BRAND = {
+export interface Brand {
+	name: string;
+	domain: string;
+	city: string;
+	phone: string;
+	contactNum: string;
+	email: string;
+	github: string;
+	gold: string;
+	dark: string;
+	mid: string;
+}
+
+export interface Project {
+	slug: string;
+	title: string;
+	tag: string;
+	img: string;
+	hero: string;
+	blurb: string;
+	overview: string;
+	challenge: string;
+	solution: string;
+	impact: string[];
+	services: string[];
+	tech: string[];
+	liveUrl: string;
+	repoUrl: string;
+	process: string[];
+	gallery: string[];
+}
+
+export const BOOKING: string = "https://calendar.app.google/MCoM4jfg2dWgypC47";
+
+export const BRAND: Brand = {
 	name: "VegaDesign.Studio",
 	domain: "vegadesign.studio",
 	city: "Los Angeles",
@@ -11,7 +44,8 @@ export const BRAND = {
 	dark: "#0B0B0B",
 	mid: "#1A1A1A",
 };
-export const PROJECTS = [
+
+export const PROJECTS: Project[] = [
 	{
 		slug: "adelphos-manila",
 		title: "Adelphos Manila — Premium Web Storefront",

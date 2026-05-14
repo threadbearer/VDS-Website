@@ -5,7 +5,9 @@ import { Container } from "../ui/elements";
 import { PROJECTS } from "../information";
 
 export default function WorkIndex() {
-  const [active, setActive] = useState("All");
+  const [active, setActive] = useState<string>("All");
+  
+  // Get distinct services across all projects
   const services = Array.from(new Set(PROJECTS.flatMap(p => p.services)));
   const list = active === "All" ? PROJECTS : PROJECTS.filter(p => p.services.includes(active));
 
@@ -71,12 +73,12 @@ export default function WorkIndex() {
                   )}
                   <div className="mt-4 flex gap-2">
                     {p.liveUrl && (
-                      <a href={p.liveUrl} target="_blank" rel="noopener" className="rounded-full px-3.5 py-1.5 text-xs font-medium text-black transition-all hover:opacity-90" style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}>
+                      <a href={p.liveUrl} target="_blank" rel="noopener noreferrer" className="rounded-full px-3.5 py-1.5 text-xs font-medium text-black transition-all hover:opacity-90" style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}>
                         View Live ↗
                       </a>
                     )}
                     {p.repoUrl && (
-                      <a href={p.repoUrl} target="_blank" rel="noopener" className="rounded-full border border-white/10 px-3.5 py-1.5 text-xs text-white/80 hover:border-white/30 transition-all">
+                      <a href={p.repoUrl} target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 px-3.5 py-1.5 text-xs text-white/80 hover:border-white/30 transition-all">
                         Source Code
                       </a>
                     )}

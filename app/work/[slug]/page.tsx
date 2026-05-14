@@ -1,8 +1,13 @@
 import Link from "next/link";
-import { Container, CallToAction } from "@/ui/elements";
+import { Container } from "@/ui/elements";
 import { PROJECTS, BOOKING } from "@/information";
+import { Metadata } from "next";
 
-export async function generateMetadata({ params }) {
+interface PageParams {
+  params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
   const { slug } = await params;
   const p = PROJECTS.find(x => x.slug === slug);
   if (!p) return { title: "Work – Vega Design Studio" };
@@ -13,7 +18,7 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function CasePage({ params }) {
+export default async function CasePage({ params }: PageParams) {
   const { slug } = await params;
   const project = PROJECTS.find((p) => p.slug === slug);
 
@@ -40,12 +45,12 @@ export default async function CasePage({ params }) {
           {/* Action buttons */}
           <div className="mt-4 flex flex-wrap gap-2">
             {project.liveUrl && (
-              <a href={project.liveUrl} target="_blank" rel="noopener" className="rounded-full px-4 py-1.5 text-xs font-medium text-black" style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}>
+              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="rounded-full px-4 py-1.5 text-xs font-medium text-black" style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}>
                 View Live ↗
               </a>
             )}
             {project.repoUrl && (
-              <a href={project.repoUrl} target="_blank" rel="noopener" className="rounded-full border border-white/10 px-4 py-1.5 text-xs text-white hover:border-white/30 transition-all">
+              <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 px-4 py-1.5 text-xs text-white hover:border-white/30 transition-all">
                 View Source Code ↗
               </a>
             )}
@@ -118,7 +123,7 @@ export default async function CasePage({ params }) {
                 <a
                   href={BOOKING}
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   className="block rounded-full py-2.5 text-sm font-semibold text-center text-black"
                   style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}
                 >

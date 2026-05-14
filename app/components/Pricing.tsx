@@ -1,8 +1,16 @@
 import { Container } from '../ui/elements';
 import { BOOKING } from '../information';
 
+interface PricingTier {
+	name: string;
+	price: string;
+	points: string[];
+	cta: string;
+	featured: boolean;
+}
+
 export default function Pricing() {
-	const tiers = [
+	const tiers: PricingTier[] = [
 		{
 			name: "Web Essentials",
 			price: "$2,500",
@@ -86,7 +94,7 @@ export default function Pricing() {
 							<a
 								href={BOOKING}
 								target="_blank"
-								rel="noopener"
+								rel="noopener noreferrer"
 								className={`mt-6 block rounded-full py-2.5 text-sm font-semibold text-center transition-all hover:opacity-90 ${
 									t.featured
 										? 'text-black'

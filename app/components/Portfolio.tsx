@@ -1,4 +1,4 @@
-import { Container } from "../ui/elements";
+import { Container } from "@/ui/elements";
 import { PROJECTS } from "@/information";
 
 export default function Portfolio() {
@@ -53,7 +53,7 @@ export default function Portfolio() {
 										<a
 											href={p.liveUrl}
 											target="_blank"
-											rel="noopener"
+											rel="noopener noreferrer"
 											className="rounded-full px-3.5 py-1.5 text-xs font-medium text-black transition-all hover:opacity-90"
 											style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}
 										>
@@ -64,7 +64,7 @@ export default function Portfolio() {
 										<a
 											href={p.repoUrl}
 											target="_blank"
-											rel="noopener"
+											rel="noopener noreferrer"
 											className="rounded-full border border-white/10 px-3.5 py-1.5 text-xs text-white/80 hover:border-white/30 hover:bg-white/[0.04] transition-all"
 										>
 											Source Code

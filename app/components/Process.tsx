@@ -1,7 +1,13 @@
-import { Container } from "../ui/elements";
+import { Container } from "@/ui/elements";
+
+interface ProcessStep {
+	k: string;
+	t: string;
+	d: string;
+}
 
 export default function Process() {
-	const steps = [
+	const steps: ProcessStep[] = [
 		{
 			k: "01",
 			t: "Discovery",

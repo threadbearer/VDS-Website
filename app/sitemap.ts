@@ -1,8 +1,10 @@
 import { PROJECTS, BRAND } from "@/information";
-export default function sitemap() {
+import { MetadataRoute } from "next";
+
+export default function sitemap(): MetadataRoute.Sitemap {
   const base = `https://${BRAND.domain}`;
   const now = new Date();
-	return [
+  return [
     { url: `${base}/`, lastModified: now },
     { url: `${base}/work`, lastModified: now },
     { url: `${base}/services`, lastModified: now },

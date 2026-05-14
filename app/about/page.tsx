@@ -1,14 +1,15 @@
 import { Container, Section } from "@/ui/elements";
 import JsonLd from "@/components/JsonLd";
 import { BRAND } from "@/information";
+import { Metadata } from "next";
 
-export const metadata = { title: `About — ${BRAND}` };
+export const metadata: Metadata = { title: `About — ${BRAND.name}` };
 
 export default function AboutPage() {
 	const jsonLd = {
 		"@context": "https://schema.org",
 		"@type": "AboutPage",
-		name: `About ${BRAND}`,
+		name: `About ${BRAND.name}`,
 		description:
 			"Our approach blends brand, web, and AI to create measurable impact.",
 	};

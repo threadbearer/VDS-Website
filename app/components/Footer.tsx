@@ -21,7 +21,7 @@ export default function Footer() {
 						<a href={`mailto:${BRAND.email}`} className="hover:text-white transition-colors">
 							Email
 						</a>
-						<a href={BRAND.github} target="_blank" rel="noopener" className="hover:text-white transition-colors">
+						<a href={BRAND.github} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
 							GitHub
 						</a>
 					</div>

@@ -17,7 +17,7 @@ export default function Contact() {
 					<a
 						href="https://calendar.app.google/MCoM4jfg2dWgypC47"
 						target="_blank"
-						rel="noopener"
+						rel="noopener noreferrer"
 						className="inline-block rounded-full bg-white px-5 py-2 text-sm font-semibold text-black hover:opacity-90"
 					>
 						Book a Strategy Call

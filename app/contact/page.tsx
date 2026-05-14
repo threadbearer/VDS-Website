@@ -60,7 +60,7 @@ export default function ContactPage() {
                 <a
                   href={BOOKING}
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   className="inline-block rounded-full px-5 py-2.5 text-sm font-semibold text-black"
                   style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}
                 >
@@ -76,7 +76,7 @@ export default function ContactPage() {
                   <a href={`mailto:${BRAND.email}`} className="block hover:text-white transition-colors">
                     ✉️ {BRAND.email}
                   </a>
-                  <a href={BRAND.github} target="_blank" rel="noopener" className="block hover:text-white transition-colors">
+                  <a href={BRAND.github} target="_blank" rel="noopener noreferrer" className="block hover:text-white transition-colors">
                     💻 GitHub — threadbearer
                   </a>
                 </div>

@@ -1,9 +1,13 @@
 import { Container } from "@/ui/elements";
 
-const ICONS = ["✦", "◆", "⚡", "📈"];
+interface ServiceItem {
+	t: string;
+	d: string;
+	icon: string;
+}
 
 export default function Services() {
-	const items = [
+	const items: ServiceItem[] = [
 		{
 			t: "Brand & Identity",
 			d: "Premium identity and messaging that build trust and consistency across every touchpoint. Logos, brand kit, web/social templates.",
@@ -50,7 +54,7 @@ export default function Services() {
 						milestones and goals.
 					</p>
 				</div>
-				<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+				<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 					{items.map((s, i) => (
 						<div
 							key={i}

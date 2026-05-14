@@ -36,7 +36,7 @@ export function Hero() {
 						<a
 							href={BOOKING}
 							target="_blank"
-							rel="noopener"
+							rel="noopener noreferrer"
 							className="rounded-full px-6 py-2.5 text-sm font-semibold text-black transition-all duration-200 hover:opacity-90 hover:scale-[1.02]"
 							style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}
 						>

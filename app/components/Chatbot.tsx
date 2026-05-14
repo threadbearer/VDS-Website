@@ -1,17 +1,26 @@
-import { useState } from "react";
+'use client';
+import { useState, KeyboardEvent } from "react";
 import { BRAND, BOOKING } from "@/information";
 
+interface ChatMessage {
+	role: "assistant" | "user";
+	content: string;
+}
+
 export default function Chatbot() {
-	const [open, setOpen] = useState(false);
-	const [messages, setMessages] = useState([
+	const [open, setOpen] = useState<boolean>(false);
+	const [messages, setMessages] = useState<ChatMessage[]>([
 		{
 			role: "assistant",
 			content:
 				"I am Vega — your design intelligence. Ask about branding, websites, or AI. Want a 60-second brief?",
 		},
 	]);
-	const [input, setInput] = useState("");
-	const push = (r, c) => setMessages((m) => [...m, { role: r, content: c }]);
+	const [input, setInput] = useState<string>("");
+	
+	const push = (role: "assistant" | "user", content: string) => 
+		setMessages((m) => [...m, { role, content }]);
+
 	async function send() {
 		const v = input.trim();
 		if (!v) return;
@@ -26,6 +35,13 @@ export default function Chatbot() {
 			300
 		);
 	}
+
+	const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === "Enter") {
+			send();
+		}
+	};
+
 	return (
 		<>
 			<a
@@ -64,7 +80,7 @@ export default function Chatbot() {
 							<a
 								href={BOOKING}
 								target="_blank"
-								rel="noopener"
+								rel="noopener noreferrer"
 								className="rounded-full px-2.5 py-1 text-[11px] font-medium text-black hover:opacity-90"
 								style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}
 							>
@@ -102,7 +118,7 @@ export default function Chatbot() {
 						<input
 							value={input}
 							onChange={(e) => setInput(e.target.value)}
-							onKeyDown={(e) => e.key === "Enter" && send()}
+							onKeyDown={handleKeyDown}
 							placeholder="Ask about services, pricing, timelines…"
 							className="flex-1 rounded-xl border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-sm text-white placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
 						/>

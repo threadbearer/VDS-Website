@@ -16,10 +16,10 @@ export default function About() {
               Preferred stack: Next.js, Tailwind, Vercel. AI when it saves time or increases conversion.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <a href={BOOKING} target="_blank" rel="noopener" className="rounded-full px-5 py-2.5 text-sm font-semibold text-black hover:opacity-90 transition-all" style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}>
+              <a href={BOOKING} target="_blank" rel="noopener noreferrer" className="rounded-full px-5 py-2.5 text-sm font-semibold text-black hover:opacity-90 transition-all" style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}>
                 Book a Call
               </a>
-              <a href={BRAND.github} target="_blank" rel="noopener" className="rounded-full border border-white/10 px-5 py-2.5 text-sm text-white hover:border-white/30 transition-all">
+              <a href={BRAND.github} target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 px-5 py-2.5 text-sm text-white hover:border-white/30 transition-all">
                 GitHub ↗
               </a>
             </div>

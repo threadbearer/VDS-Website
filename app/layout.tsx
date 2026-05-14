@@ -1,8 +1,9 @@
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import NavBar from './components/NavBar';
+import { Metadata } from 'next';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Vega Design Studio — Web, Design & AI',
   description: 'Guided by Vega — Where Creativity Meets Intelligence. Premium web development, branding, and AI solutions based in Los Angeles.',
   icons: { icon: '/logo-vega-agent.png' },
@@ -13,7 +14,12 @@ export const metadata = {
     url: 'https://vegadesign.studio'
   },
 };
-export default function RootLayout({ children }) {
+
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",

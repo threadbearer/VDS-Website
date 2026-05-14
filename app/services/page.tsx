@@ -1,10 +1,18 @@
 import { Container, Section, Card } from "../ui/elements";
 import JsonLd from "../components/JsonLd";
 import { BRAND, BOOKING } from "../information";
+import { Metadata } from "next";
 
-export const metadata = { title: `Services — ${BRAND}` };
+export const metadata: Metadata = { title: `Services — ${BRAND.name}` };
 
-const PACKAGES = [
+interface PackageItem {
+  name: string;
+  blurb: string;
+  price: string;
+  features: string[];
+}
+
+const PACKAGES: PackageItem[] = [
   {
     name: "Website and Hosting",
     blurb: "Brand refresh, one landing page, light AI (Artificial Intelligence) automation.",
@@ -48,7 +56,8 @@ const PACKAGES = [
       "AI concierge + internal tooling",
       "A/B (Split) testing & optimization"
     ]
-  },{
+  },
+  {
     name: "Marketing and Ad Campains",
     blurb: "Custom brand system + product UX (User Experience) + advanced AI workflows.",
     price: "custom",
@@ -58,7 +67,8 @@ const PACKAGES = [
       "AI concierge + internal tooling",
       "A/B (Split) testing & optimization"
     ]
-  },{
+  },
+  {
     name: "AI tools",
     blurb: "Custom brand system + product UX (User Experience) + advanced AI workflows.",
     price: "custom",
@@ -75,8 +85,8 @@ export default function ServicesPage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
-    "name": `${BRAND} — Design & AI Services`,
-    "provider": { "@type": "Organization", "name": BRAND },
+    "name": `${BRAND.name} — Design & AI Services`,
+    "provider": { "@type": "Organization", "name": BRAND.name },
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": "Studio Packages",
@@ -99,7 +109,7 @@ export default function ServicesPage() {
             Design systems, Next.js websites, and AI assistants that drive real outcomes.
           </p>
           <div className="mt-6">
-            <a href={BOOKING} target="_blank" rel="noopener"
+            <a href={BOOKING} target="_blank" rel="noopener noreferrer"
                className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-black hover:opacity-90">
               Book a Strategy Call
             </a>
