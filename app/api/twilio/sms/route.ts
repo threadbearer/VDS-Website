@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { openai } from '@ai-sdk/openai';
 import { generateText } from 'ai';
+import { saveMessage } from '@/lib/database';
 
 // Note: Twilio webhooks expect standard serverless execution rather than edge streams, 
 // because SMS cannot "stream" text letter-by-letter to a phone screen anyway.
@@ -28,11 +29,27 @@ export async function POST(req: Request) {
             return new Response('<Response />', { headers: { 'Content-Type': 'text/xml' } });
         }
 
+        // 1.5 Log incoming user message
+        await saveMessage({
+            phone: fromNumber,
+            content: userMessage,
+            role: 'user',
+            source: 'sms',
+        });
+
         // 2. Execute the model logic
         const { text } = await generateText({
             model: openai('gpt-4o-mini'),
             system: SMS_SYSTEM_PROMPT,
             prompt: userMessage,
+        });
+
+        // 2.5 Log outgoing AI message
+        await saveMessage({
+            phone: fromNumber,
+            content: text,
+            role: 'assistant',
+            source: 'sms',
         });
 
         // 3. Construct the TwiML XML Response

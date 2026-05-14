@@ -20,6 +20,7 @@ export default function ChatWidget() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [sessionId, setSessionId] = useState<string>('');
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -28,6 +29,18 @@ export default function ChatWidget() {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  // Initialize persistent chat session identifier
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      let sid = localStorage.getItem('vds_chat_session_id');
+      if (!sid) {
+        sid = Math.random().toString(36).substring(2) + Date.now().toString(36);
+        localStorage.setItem('vds_chat_session_id', sid);
+      }
+      setSessionId(sid);
+    }
+  }, []);
 
   // Automatically scroll down when new messages arrive or when typing starts
   useEffect(() => {
@@ -55,6 +68,7 @@ export default function ChatWidget() {
       // Prepare context messages matching original schema
       const updatedMessages = [...messages, userMessage];
       const apiPayload = {
+        sessionId,
         messages: updatedMessages.map((m) => ({
           role: m.role,
           content: m.content,
