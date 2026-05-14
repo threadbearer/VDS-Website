@@ -7,7 +7,7 @@ import Pricing from "./components/Pricing";
 import Process from "./components/Process";
 import About from "./components/About";
 import Footer from "./components/Footer";
-import Chatbot from "./components/Chatbot";
+import ChatWidget from "./components/ui/ChatWidget";
 
 // --- Shared ---
 const CYAN = "#00FFFF";
@@ -38,7 +38,7 @@ export default function Home() {
       <Process/>
       <Portfolio/>
       <About/>
-      <Chatbot/>
+      <ChatWidget/>
       <Footer/>
       <div className="pointer-events-none fixed inset-0 -z-10 bg-gradient-to-b from-transparent via-transparent to-[rgba(0,255,255,0.08)]" />
     </div>

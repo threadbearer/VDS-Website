@@ -43,7 +43,7 @@ export async function POST(req: Request) {
         });
 
         // 4. Return a streaming response to the client
-        return result.toDataStreamResponse();
+        return result.toTextStreamResponse();
     } catch (error) {
         return new Response(JSON.stringify({ error: 'Failed to process request' }), {
             status: 500,
