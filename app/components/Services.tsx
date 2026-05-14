@@ -39,30 +39,39 @@ export default function Services() {
 			icon: "🔍",
 		},
 	];
+
+	const getIconClasses = (i: number) => {
+		const styles = [
+			"bg-accent-cyan/10 text-accent-cyan",
+			"bg-accent-violet/10 text-accent-violet",
+			"bg-accent-amber/10 text-accent-amber",
+			"bg-accent-rose/10 text-accent-rose",
+		];
+		return styles[i % styles.length];
+	};
+
 	return (
-		<section id="services" className="py-20" style={{ background: 'var(--bg)' }}>
+		<section id="services" className="py-20 bg-bg-page">
 			<Container>
-				<div className="mb-10 text-center">
-					<div className="section-label">
-						our expertise
-					</div>
-					<h2 className="mt-2 text-3xl sm:text-4xl font-semibold text-white">
+				<div className="mb-12 text-center">
+					<h2 className="text-2xl md:text-3xl font-bold font-display tracking-tight text-text-primary">
 						Everything you need to join the future
 					</h2>
-					<p className="mx-auto mt-3 max-w-2xl text-neutral-400">
-						Engagements typically run 1–4 weeks with clear
-						milestones and goals.
+					<p className="mx-auto mt-4 max-w-2xl text-text-secondary font-light">
+						Engagements typically run 1–4 weeks with clear milestones and goals.
 					</p>
 				</div>
 				<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 					{items.map((s, i) => (
 						<div
 							key={i}
-							className="glass-card p-6 group"
+							className="bg-bg-surface border border-subtle rounded-lg p-5 card-hover group"
 						>
-							<div className="text-2xl mb-3">{s.icon}</div>
-							<div className="text-white font-medium">{s.t}</div>
-							<p className="mt-2 text-sm text-neutral-400 leading-relaxed">
+							<div className={`w-9 h-9 rounded-sm flex items-center justify-center text-lg mb-4 ${getIconClasses(i)}`}>
+								{s.icon}
+							</div>
+							<div className="font-display font-semibold text-sm tracking-tight text-text-primary mb-2">{s.t}</div>
+							<p className="text-text-secondary text-xs font-light leading-relaxed">
 								{s.d}
 							</p>
 						</div>

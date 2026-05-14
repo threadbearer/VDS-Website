@@ -46,29 +46,22 @@ export default function Chatbot() {
 		<>
 			<a
 				href={BRAND.phone}
-				className="fixed bottom-3 left-5 z-50 flex items-center gap-2 rounded-full px-4 py-2 text-sm shadow-lg transition-all hover:scale-[1.02]"
-				style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)', color: '#000', fontWeight: 500 }}
+				className="fixed bottom-3 left-5 z-50 flex items-center gap-2 rounded-full px-4 py-2 text-sm shadow-lg transition-all hover:scale-[1.02] bg-brand-gradient text-[#0a0a0f] font-medium"
 			>
 				{BRAND.contactNum}
 			</a>
 			<button
 				onClick={() => setOpen((v) => !v)}
-				className="fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-full px-4 py-2 text-sm shadow-lg transition-all hover:scale-[1.02]"
-				style={{
-					background: open
-						? "rgba(0,0,0,0.85)"
-						: "linear-gradient(90deg,#00FFFF,#00BFFF)",
-					color: open ? "white" : "black",
-					border: open ? '1px solid rgba(255,255,255,0.1)' : 'none',
-					fontWeight: 500,
-				}}
+				className={`fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-full px-4 py-2 text-sm shadow-lg transition-all hover:scale-[1.02] font-medium ${
+					open ? 'bg-bg-surface-2 border border-subtle text-text-primary' : 'bg-brand-gradient text-[#0a0a0f]'
+				}`}
 			>
 				{open ? "Close Chat" : "Vega AI"}
 			</button>
 			{open && (
-				<div className="fixed bottom-20 right-5 z-50 w-[92vw] max-w-sm overflow-hidden rounded-2xl border border-white/10 shadow-2xl" style={{ background: 'rgba(11,11,11,0.95)', backdropFilter: 'blur(16px)' }}>
-					<div className="flex items-center justify-between border-b border-white/[0.06] px-4 py-3">
-						<div className="text-sm font-medium text-white flex items-center gap-2">
+				<div className="fixed bottom-20 right-5 z-50 w-[92vw] max-w-sm overflow-hidden shadow-2xl bg-bg-surface border border-subtle rounded-xl">
+					<div className="flex items-center justify-between border-b border-subtle px-4 py-3 bg-bg-surface/50 backdrop-blur-md">
+						<div className="text-sm font-medium text-text-primary flex items-center gap-2">
 							<img
 								src="/logo-vega-agent.png"
 								alt="Vega"
@@ -81,17 +74,16 @@ export default function Chatbot() {
 								href={BOOKING}
 								target="_blank"
 								rel="noopener noreferrer"
-								className="rounded-full px-2.5 py-1 text-[11px] font-medium text-black hover:opacity-90"
-								style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}
+								className="rounded-full px-2.5 py-1 text-[11px] font-medium text-[#0a0a0f] bg-brand-gradient hover:opacity-90"
 							>
 								Book
 							</a>
-							<span className="text-xs text-neutral-500">
+							<span className="text-xs text-text-muted">
 								Online
 							</span>
 						</div>
 					</div>
-					<div className="max-h-80 space-y-2 overflow-y-auto p-3">
+					<div className="max-h-80 space-y-3 overflow-y-auto p-4 bg-bg-page/50">
 						{messages.map((m, i) => (
 							<div
 								key={i}
@@ -102,33 +94,28 @@ export default function Chatbot() {
 								}`}
 							>
 								<div
-									className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm ${
+									className={`max-w-[85%] px-4 py-2.5 text-sm leading-relaxed ${
 										m.role === "assistant"
-											? "bg-white/[0.06] text-white border border-white/[0.06]"
-											: "text-black"
+											? "bg-bg-surface-2 text-text-primary rounded-lg rounded-bl-sm border border-subtle"
+											: "bg-accent-violet/15 text-text-primary rounded-lg rounded-br-sm"
 									}`}
-									style={m.role === "user" ? { background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' } : {}}
 								>
 									{m.content}
 								</div>
 							</div>
 						))}
 					</div>
-					<div className="flex items-center gap-2 border-t border-white/[0.06] p-3">
+					<div className="flex items-center gap-2 border-t border-subtle p-3 bg-bg-surface">
 						<input
 							value={input}
 							onChange={(e) => setInput(e.target.value)}
 							onKeyDown={handleKeyDown}
 							placeholder="Ask about services, pricing, timelines…"
-							className="flex-1 rounded-xl border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-sm text-white placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-cyan-400/30"
+							className="flex-1 bg-bg-raised border border-subtle focus:border-accent-violet rounded-sm text-text-primary placeholder-text-muted text-sm px-3 py-2 w-full outline-none transition"
 						/>
 						<button
 							onClick={send}
-							className="rounded-xl px-3 py-2 text-sm font-semibold text-black"
-							style={{
-								background:
-									"linear-gradient(90deg,#00FFFF,#00BFFF)",
-							}}
+							className="bg-brand-gradient text-[#0a0a0f] font-medium px-4 py-2 rounded-md text-sm transition-opacity hover:opacity-90"
 						>
 							Send
 						</button>

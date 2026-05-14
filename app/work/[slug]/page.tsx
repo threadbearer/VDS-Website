@@ -24,10 +24,10 @@ export default async function CasePage({ params }: PageParams) {
 
   if (!project) {
     return (
-      <div className="min-h-screen text-white" style={{ background: 'var(--bg)' }}>
+      <div className="min-h-screen bg-bg-page">
         <Container>
-          <div className="pt-28">
-            Not found. <Link href="/work" className="underline text-cyan-400">Back to work</Link>
+          <div className="pt-28 text-text-secondary">
+            Not found. <Link href="/work" className="underline text-accent-cyan">Back to work</Link>
           </div>
         </Container>
       </div>
@@ -35,22 +35,22 @@ export default async function CasePage({ params }: PageParams) {
   }
 
   return (
-    <div className="min-h-screen text-white" style={{ background: 'var(--bg)' }}>
+    <div className="min-h-screen bg-bg-page">
       <Container>
         <div className="pt-10 pb-20 max-w-5xl">
-          <Link href="/work" className="text-sm text-cyan-400 hover:underline">← Back to Work</Link>
-          <h1 className="mt-4 text-3xl sm:text-4xl font-semibold" style={{ fontFamily: 'var(--font-heading)' }}>{project.title}</h1>
-          <p className="mt-2 text-sm text-neutral-500">{project.tag}</p>
+          <Link href="/work" className="text-sm text-text-muted hover:text-text-primary transition-colors">← Back to Work</Link>
+          <h1 className="mt-6 text-3xl sm:text-4xl font-bold font-display tracking-tight text-text-primary">{project.title}</h1>
+          <p className="mt-2 text-sm text-text-muted">{project.tag}</p>
 
           {/* Action buttons */}
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="mt-6 flex flex-wrap gap-3">
             {project.liveUrl && (
-              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="rounded-full px-4 py-1.5 text-xs font-medium text-black" style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}>
+              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="rounded-md bg-brand-gradient px-4 py-2 text-xs font-medium text-[#0a0a0f] hover:opacity-90 transition-opacity">
                 View Live ↗
               </a>
             )}
             {project.repoUrl && (
-              <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 px-4 py-1.5 text-xs text-white hover:border-white/30 transition-all">
+              <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="rounded-md border border-mid bg-bg-surface-2 px-4 py-2 text-xs font-medium text-text-primary hover:border-accent-violet/40 transition-colors">
                 View Source Code ↗
               </a>
             )}
@@ -58,54 +58,54 @@ export default async function CasePage({ params }: PageParams) {
 
           {/* Tech badges */}
           {project.tech && (
-            <div className="mt-4 flex flex-wrap gap-1.5">
+            <div className="mt-6 flex flex-wrap gap-2">
               {project.tech.map((t) => (
-                <span key={t} className="tech-badge">{t}</span>
+                <span key={t} className="bg-bg-surface-2 border border-subtle text-text-secondary text-[10px] px-2.5 py-1 rounded-full">{t}</span>
               ))}
             </div>
           )}
 
           {/* Hero image */}
-          <div className="mt-8 overflow-hidden rounded-2xl border border-white/[0.06]">
+          <div className="mt-10 overflow-hidden rounded-xl border border-subtle">
             <img
               src={project.img}
               alt={project.title}
-              className="w-full h-auto"
+              className="w-full h-auto block"
             />
           </div>
 
           {/* Narrative */}
-          <div className="mt-10 grid gap-8 lg:grid-cols-3">
-            <div className="lg:col-span-2 space-y-8">
+          <div className="mt-12 grid gap-10 lg:grid-cols-3 items-start">
+            <div className="lg:col-span-2 space-y-10">
               <div>
-                <h2 className="text-xl font-semibold" style={{ fontFamily: 'var(--font-heading)' }}>Overview</h2>
-                <p className="mt-3 text-neutral-400 leading-relaxed">{project.overview}</p>
+                <h2 className="text-xl font-bold font-display text-text-primary">Overview</h2>
+                <p className="mt-3 text-text-secondary font-light leading-relaxed">{project.overview}</p>
               </div>
               <div>
-                <h2 className="text-xl font-semibold" style={{ fontFamily: 'var(--font-heading)' }}>Challenge</h2>
-                <p className="mt-3 text-neutral-400 leading-relaxed">{project.challenge}</p>
+                <h2 className="text-xl font-bold font-display text-text-primary">Challenge</h2>
+                <p className="mt-3 text-text-secondary font-light leading-relaxed">{project.challenge}</p>
               </div>
               <div>
-                <h2 className="text-xl font-semibold" style={{ fontFamily: 'var(--font-heading)' }}>Solution</h2>
-                <p className="mt-3 text-neutral-400 leading-relaxed">{project.solution}</p>
+                <h2 className="text-xl font-bold font-display text-text-primary">Solution</h2>
+                <p className="mt-3 text-text-secondary font-light leading-relaxed">{project.solution}</p>
               </div>
               <div>
-                <h2 className="text-xl font-semibold" style={{ fontFamily: 'var(--font-heading)' }}>Impact</h2>
-                <ul className="mt-3 space-y-2">
+                <h2 className="text-xl font-bold font-display text-text-primary">Impact</h2>
+                <ul className="mt-4 space-y-3">
                   {project.impact.map((s, i) => (
-                    <li key={i} className="flex items-start gap-2 text-neutral-400">
-                      <span className="text-cyan-400 mt-0.5 text-xs">✓</span>
+                    <li key={i} className="flex items-start gap-3 text-text-secondary font-light">
+                      <span className="text-accent-cyan mt-0.5 text-sm">✓</span>
                       <span>{s}</span>
                     </li>
                   ))}
                 </ul>
               </div>
               <div>
-                <h2 className="text-xl font-semibold" style={{ fontFamily: 'var(--font-heading)' }}>Process</h2>
-                <div className="mt-3 space-y-2">
+                <h2 className="text-xl font-bold font-display text-text-primary">Process</h2>
+                <div className="mt-4 space-y-3">
                   {project.process.map((s, i) => (
-                    <div key={i} className="flex items-center gap-3 text-neutral-400">
-                      <span className="text-xs font-bold brand-gradient" style={{ fontFamily: 'var(--font-heading)', minWidth: '1.5rem' }}>
+                    <div key={i} className="flex items-center gap-4 text-text-secondary font-light">
+                      <span className="text-sm font-bold font-display text-gradient" style={{ minWidth: '1.5rem' }}>
                         {String(i + 1).padStart(2, '0')}
                       </span>
                       <span>{s}</span>
@@ -116,25 +116,24 @@ export default async function CasePage({ params }: PageParams) {
             </div>
 
             {/* Sidebar */}
-            <aside className="space-y-5">
-              <div className="glass-card p-6">
-                <div className="text-white font-medium mb-2">Ready to ship something great?</div>
-                <p className="text-sm text-neutral-400 mb-4">We'll map the scope, timeline, and budget in a quick intro call.</p>
+            <aside className="space-y-6 sticky top-24">
+              <div className="bg-bg-surface border border-subtle rounded-xl p-6">
+                <div className="font-display font-semibold text-sm text-text-primary mb-2">Ready to ship something great?</div>
+                <p className="text-xs text-text-secondary font-light mb-6">We'll map the scope, timeline, and budget in a quick intro call.</p>
                 <a
                   href={BOOKING}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block rounded-full py-2.5 text-sm font-semibold text-center text-black"
-                  style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}
+                  className="block rounded-md py-2.5 text-sm font-medium text-center text-[#0a0a0f] bg-brand-gradient hover:opacity-90 transition-opacity"
                 >
                   Book a Call
                 </a>
               </div>
-              <div className="glass-card p-6">
-                <div className="text-sm text-neutral-500 mb-2">Services</div>
-                <div className="flex flex-wrap gap-1.5">
+              <div className="bg-bg-surface border border-subtle rounded-xl p-6">
+                <div className="text-xs font-medium uppercase tracking-widest text-text-muted mb-4">Services</div>
+                <div className="flex flex-wrap gap-2">
                   {project.services.map((s) => (
-                    <span key={s} className="tech-badge">{s}</span>
+                    <span key={s} className="border border-subtle text-text-secondary text-[10px] px-2.5 py-1 rounded-full">{s}</span>
                   ))}
                 </div>
               </div>

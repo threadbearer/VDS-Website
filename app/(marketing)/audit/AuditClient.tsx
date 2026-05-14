@@ -192,8 +192,8 @@ function StatusLight({
         </div>
       </div>
       <div>
-        <p className="text-sm font-bold text-white mb-0.5 print:text-slate-900">{label}</p>
-        <p className="text-[11px] text-neutral-500 leading-relaxed print:text-slate-500">{subLabel}</p>
+        <p className="text-sm font-bold text-text-primary mb-0.5 print:text-slate-900">{label}</p>
+        <p className="text-[11px] text-text-muted leading-relaxed print:text-slate-500">{subLabel}</p>
       </div>
       <StatusIcon className={`h-5 w-5 ${cfg.color} print:text-slate-700 mt-auto`} />
     </div>
@@ -253,7 +253,7 @@ function ScanAnimation({ step }: { step: number }) {
               </div>
               <span
                 className={`text-xs font-mono transition-colors duration-300 ${
-                  done ? 'text-emerald-400' : active ? 'text-cyan-300' : 'text-neutral-600'
+                  done ? 'text-emerald-400' : active ? 'text-cyan-300' : 'text-text-muted'
                 }`}
               >
                 {s}
@@ -347,7 +347,7 @@ export default function AuditClient() {
   const isLowScore = result && result.score < 70;
 
   return (
-    <div className="min-h-screen bg-black text-white relative print:bg-white print:text-slate-900 print:min-h-0">
+    <div className="min-h-screen bg-bg-page text-text-primary relative print:bg-white print:text-slate-900 print:min-h-0">
       {/* Global Print Engine Stylesheet */}
       <style dangerouslySetInnerHTML={{ __html: `
         @media print {
@@ -395,7 +395,7 @@ export default function AuditClient() {
               your business?
             </h1>
 
-            <p className="text-base sm:text-lg text-neutral-400 leading-relaxed max-w-xl mx-auto font-light">
+            <p className="text-base sm:text-lg text-text-secondary leading-relaxed max-w-xl mx-auto font-light">
               60% of modern searches never reach Google. Enter your URL to get an instant
               AI Discovery Score and know exactly where you stand.
             </p>
@@ -405,15 +405,15 @@ export default function AuditClient() {
           <section className="max-w-2xl mx-auto mb-16 animate-fade-up delay-1 print:hidden">
             <form
               onSubmit={handleSubmit}
-              className="rounded-3xl border border-neutral-800 bg-neutral-950/80 backdrop-blur-md p-6 sm:p-8 shadow-2xl shadow-black/60"
+              className="rounded-3xl border border-subtle bg-neutral-950/80 backdrop-blur-md p-6 sm:p-8 shadow-2xl shadow-black/60"
             >
               <div className="space-y-4 mb-6">
                 <div>
-                  <label className="block text-[10px] font-bold tracking-widest uppercase text-neutral-500 mb-2 ml-1">
+                  <label className="block text-[10px] font-bold tracking-widest uppercase text-text-muted mb-2 ml-1">
                     Business Name
                   </label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-neutral-600">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-text-muted">
                       <Sparkles className="h-4 w-4" />
                     </div>
                     <input
@@ -423,17 +423,17 @@ export default function AuditClient() {
                       value={businessName}
                       onChange={(e) => setBusinessName(e.target.value)}
                       disabled={phase === 'scanning'}
-                      className="w-full bg-black/50 border border-neutral-800 focus:border-cyan-500/40 rounded-xl py-3.5 pl-11 pr-4 text-sm text-white placeholder-neutral-700 focus:outline-none focus:ring-1 focus:ring-cyan-500/20 transition-all disabled:opacity-50"
+                      className="w-full bg-bg-page/50 border border-subtle focus:border-cyan-500/40 rounded-xl py-3.5 pl-11 pr-4 text-sm text-text-primary placeholder-neutral-700 focus:outline-none focus:ring-1 focus:ring-cyan-500/20 transition-all disabled:opacity-50"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold tracking-widest uppercase text-neutral-500 mb-2 ml-1">
+                  <label className="block text-[10px] font-bold tracking-widest uppercase text-text-muted mb-2 ml-1">
                     Website URL
                   </label>
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-neutral-600">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-text-muted">
                       <Globe className="h-4 w-4" />
                     </div>
                     <input
@@ -443,7 +443,7 @@ export default function AuditClient() {
                       value={url}
                       onChange={(e) => setUrl(e.target.value)}
                       disabled={phase === 'scanning'}
-                      className="w-full bg-black/50 border border-neutral-800 focus:border-cyan-500/40 rounded-xl py-3.5 pl-11 pr-4 text-sm text-white placeholder-neutral-700 focus:outline-none focus:ring-1 focus:ring-cyan-500/20 transition-all disabled:opacity-50"
+                      className="w-full bg-bg-page/50 border border-subtle focus:border-cyan-500/40 rounded-xl py-3.5 pl-11 pr-4 text-sm text-text-primary placeholder-neutral-700 focus:outline-none focus:ring-1 focus:ring-cyan-500/20 transition-all disabled:opacity-50"
                     />
                   </div>
                 </div>
@@ -460,7 +460,7 @@ export default function AuditClient() {
                 <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
               </button>
 
-              <p className="text-center text-[11px] text-neutral-600 mt-4">
+              <p className="text-center text-[11px] text-text-muted mt-4">
                 Free audit • No credit card required • Results in ~15 seconds
               </p>
             </form>
@@ -469,11 +469,11 @@ export default function AuditClient() {
           {/* ── Scanning Animation ── */}
           {phase === 'scanning' && (
             <section className="max-w-md mx-auto animate-fade-in print:hidden">
-              <div className="rounded-3xl border border-neutral-800 bg-neutral-950/80 backdrop-blur-md p-8 shadow-2xl text-center">
+              <div className="rounded-3xl border border-subtle bg-neutral-950/80 backdrop-blur-md p-8 shadow-2xl text-center">
                 <p className="text-[10px] font-bold uppercase tracking-widest text-cyan-400 mb-1">
                   Deep Analysis
                 </p>
-                <h2 className="text-lg font-bold font-heading text-white mb-6">
+                <h2 className="text-lg font-bold font-heading text-text-primary mb-6">
                   Auditing {businessName}...
                 </h2>
                 <ScanAnimation step={scanStep} />
@@ -486,11 +486,11 @@ export default function AuditClient() {
             <section className="max-w-md mx-auto animate-fade-in print:hidden">
               <div className="rounded-3xl border border-red-900/40 bg-red-950/20 p-8 text-center">
                 <XCircle className="h-10 w-10 text-red-400 mx-auto mb-4" />
-                <h2 className="text-lg font-bold text-white mb-2">Audit Failed</h2>
-                <p className="text-sm text-neutral-400 mb-6">{errorMsg}</p>
+                <h2 className="text-lg font-bold text-text-primary mb-2">Audit Failed</h2>
+                <p className="text-sm text-text-secondary mb-6">{errorMsg}</p>
                 <button
                   onClick={handleReset}
-                  className="inline-flex items-center gap-2 rounded-xl bg-neutral-800 text-white px-6 py-3 text-sm font-bold hover:bg-neutral-700 transition-colors"
+                  className="inline-flex items-center gap-2 rounded-xl bg-neutral-800 text-text-primary px-6 py-3 text-sm font-bold hover:bg-neutral-700 transition-colors"
                 >
                   Try Again
                 </button>
@@ -514,7 +514,7 @@ export default function AuditClient() {
               </div>
 
               {/* Score Header Card */}
-              <div className="rounded-3xl border border-neutral-800 bg-neutral-950/90 backdrop-blur-md overflow-hidden shadow-2xl shadow-black/80 mb-6 print:border-slate-200 print:bg-white print:shadow-none print:mb-0 print:rounded-2xl print:break-after-page">
+              <div className="rounded-3xl border border-subtle bg-neutral-950/90 backdrop-blur-md overflow-hidden shadow-2xl shadow-black/80 mb-6 print:border-slate-200 print:bg-white print:shadow-none print:mb-0 print:rounded-2xl print:break-after-page">
                 {/* Top accent line */}
                 <div className="h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent print:hidden" />
 
@@ -526,7 +526,7 @@ export default function AuditClient() {
 
                   <GaugeScore score={result.score} animate={gaugeAnimate} />
 
-                  <p className="text-sm text-neutral-400 leading-relaxed max-w-md mx-auto mt-4 print:text-slate-700 print:max-w-none">
+                  <p className="text-sm text-text-secondary leading-relaxed max-w-md mx-auto mt-4 print:text-slate-700 print:max-w-none">
                     {result.summary}
                   </p>
 
@@ -535,7 +535,7 @@ export default function AuditClient() {
                     <button
                       onClick={handleDownloadPDF}
                       disabled={isPrinting}
-                      className="inline-flex items-center gap-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 hover:border-neutral-700 text-white px-5 py-3 text-sm font-medium transition-all duration-200 shadow-lg shadow-black/30 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-70"
+                      className="inline-flex items-center gap-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-subtle hover:border-neutral-700 text-text-primary px-5 py-3 text-sm font-medium transition-all duration-200 shadow-lg shadow-black/30 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-70"
                     >
                       {isPrinting ? (
                         <>
@@ -554,7 +554,7 @@ export default function AuditClient() {
 
                 {/* Status Lights Row */}
                 <div className="px-6 pb-8 print:px-4 print:pb-4">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-600 mb-4 text-center print:text-slate-400">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted mb-4 text-center print:text-slate-400">
                     Dimension Breakdown
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3 print:flex-row print:gap-4">
@@ -581,12 +581,12 @@ export default function AuditClient() {
               </div>
 
               {/* Fix List Card */}
-              <div className="rounded-3xl border border-neutral-800 bg-neutral-950/80 p-6 sm:p-8 mb-6 shadow-xl print:border-slate-200 print:bg-white print:shadow-none print:p-6 print:rounded-2xl print:break-inside-avoid">
-                <h2 className="text-base font-bold font-heading text-white mb-1 flex items-center gap-2 print:text-slate-900">
+              <div className="rounded-3xl border border-subtle bg-neutral-950/80 p-6 sm:p-8 mb-6 shadow-xl print:border-slate-200 print:bg-white print:shadow-none print:p-6 print:rounded-2xl print:break-inside-avoid">
+                <h2 className="text-base font-bold font-heading text-text-primary mb-1 flex items-center gap-2 print:text-slate-900">
                   <Sparkles className="h-4 w-4 text-cyan-400 print:text-cyan-600" />
                   Your 3 Priority Fixes
                 </h2>
-                <p className="text-[11px] text-neutral-500 mb-5 print:text-slate-500">
+                <p className="text-[11px] text-text-muted mb-5 print:text-slate-500">
                   Implementing these will directly improve how often AI recommends {businessName}.
                 </p>
                 <ol className="space-y-4">
@@ -595,7 +595,7 @@ export default function AuditClient() {
                       <div className="flex-shrink-0 h-7 w-7 rounded-full bg-cyan-500/10 border border-cyan-500/25 flex items-center justify-center text-cyan-400 text-xs font-bold print:bg-slate-100 print:border-slate-300 print:text-slate-700">
                         {i + 1}
                       </div>
-                      <p className="text-sm text-neutral-300 leading-relaxed pt-0.5 print:text-slate-700">{fix}</p>
+                      <p className="text-sm text-text-secondary leading-relaxed pt-0.5 print:text-slate-700">{fix}</p>
                     </li>
                   ))}
                 </ol>
@@ -612,13 +612,13 @@ export default function AuditClient() {
                         Visibility Alert
                       </span>
                     </div>
-                    <h2 className="text-xl sm:text-2xl font-bold font-heading text-white mb-3 leading-tight print:text-slate-900">
+                    <h2 className="text-xl sm:text-2xl font-bold font-heading text-text-primary mb-3 leading-tight print:text-slate-900">
                       Your business is invisible to 60% of modern AI searches.
                     </h2>
-                    <p className="text-sm text-neutral-400 mb-6 leading-relaxed max-w-lg print:text-slate-600">
+                    <p className="text-sm text-text-secondary mb-6 leading-relaxed max-w-lg print:text-slate-600">
                       A score below 70 means ChatGPT, Gemini, and Claude are actively recommending
                       your competitors. Our{' '}
-                      <span className="text-white font-semibold print:text-slate-900 print:font-bold">Foundation Build (Tier 1)</span>{' '}
+                      <span className="text-text-primary font-semibold print:text-slate-900 print:font-bold">Foundation Build (Tier 1)</span>{' '}
                       fixes your AEO infrastructure in under 14 days — schema markup, citation
                       building, and AI-indexed content.
                     </p>
@@ -635,7 +635,7 @@ export default function AuditClient() {
                         href={BOOKING}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-700 text-neutral-300 px-6 py-3.5 text-sm font-medium hover:bg-neutral-900 transition-all duration-200"
+                        className="inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-700 text-text-secondary px-6 py-3.5 text-sm font-medium hover:bg-neutral-900 transition-all duration-200"
                       >
                         Book a Free Strategy Call
                       </a>
@@ -653,10 +653,10 @@ export default function AuditClient() {
                       Strong Foundation
                     </span>
                   </div>
-                  <h2 className="text-xl font-bold font-heading text-white mb-3 print:text-slate-900">
+                  <h2 className="text-xl font-bold font-heading text-text-primary mb-3 print:text-slate-900">
                     You have a solid AEO baseline. Let&apos;s scale it.
                   </h2>
-                  <p className="text-sm text-neutral-400 mb-6 leading-relaxed print:text-slate-600">
+                  <p className="text-sm text-text-secondary mb-6 leading-relaxed print:text-slate-600">
                     Your score is above 70, but there&apos;s always room to dominate. Our advanced
                     tiers add AI-trained intake agents, voice dispatch, and real-time CRM sync.
                   </p>
@@ -677,7 +677,7 @@ export default function AuditClient() {
               <div className="text-center mt-8 print:hidden">
                 <button
                   onClick={handleReset}
-                  className="text-xs text-neutral-500 hover:text-neutral-300 underline underline-offset-4 transition-colors"
+                  className="text-xs text-text-muted hover:text-text-secondary underline underline-offset-4 transition-colors"
                 >
                   Run Another Audit
                 </button>
@@ -692,13 +692,13 @@ export default function AuditClient() {
                 {['ChatGPT', 'Gemini', 'Claude', 'Perplexity'].map((name) => (
                   <span
                     key={name}
-                    className="text-xs font-mono text-neutral-400 border border-neutral-800 rounded-lg px-3 py-1.5 bg-neutral-900/50"
+                    className="text-xs font-mono text-text-secondary border border-subtle rounded-lg px-3 py-1.5 bg-neutral-900/50"
                   >
                     {name}
                   </span>
                 ))}
               </div>
-              <p className="text-center text-[11px] text-neutral-600 mt-4">
+              <p className="text-center text-[11px] text-text-muted mt-4">
                 We audit your discoverability across all major AI answer engines
               </p>
             </section>

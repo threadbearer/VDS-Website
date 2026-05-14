@@ -12,26 +12,25 @@ export default function WorkIndex() {
   const list = active === "All" ? PROJECTS : PROJECTS.filter(p => p.services.includes(active));
 
   return (
-    <div className="min-h-screen text-white" style={{ background: 'var(--bg)' }}>
+    <div className="min-h-screen bg-bg-page">
       <div className="pt-10 pb-20">
         <Container>
-          <div className="mb-8">
-            <div className="section-label">work</div>
-            <h1 className="mt-2 text-3xl sm:text-4xl font-semibold">Selected Projects</h1>
-            <p className="mt-3 text-neutral-400 max-w-xl">
+          <div className="mb-12">
+            <div className="text-[10px] font-medium uppercase tracking-widest text-text-muted mb-2">work</div>
+            <h1 className="text-3xl md:text-4xl font-bold font-display tracking-tight text-text-primary">Selected Projects</h1>
+            <p className="mt-4 text-text-secondary font-light max-w-xl">
               Every project is live in production — built for real businesses with real results.
             </p>
           </div>
 
-          <div className="mb-6 flex flex-wrap gap-2">
+          <div className="mb-8 flex flex-wrap gap-2">
             <button
               onClick={() => setActive("All")}
-              className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all ${
+              className={`rounded-full px-4 py-1.5 text-xs transition-colors ${
                 active === 'All'
-                  ? 'text-black'
-                  : 'border border-white/[0.1] text-white hover:border-white/30'
+                  ? 'border border-accent-cyan/30 bg-accent-cyan/8 text-accent-cyan'
+                  : 'border border-subtle text-text-secondary hover:border-accent-cyan/30 hover:text-text-primary'
               }`}
-              style={active === 'All' ? { background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' } : {}}
             >
               All
             </button>
@@ -39,12 +38,11 @@ export default function WorkIndex() {
               <button
                 key={s}
                 onClick={() => setActive(s)}
-                className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all ${
+                className={`rounded-full px-4 py-1.5 text-xs transition-colors ${
                   active === s
-                    ? 'text-black'
-                    : 'border border-white/[0.1] text-white hover:border-white/30'
+                    ? 'border border-accent-cyan/30 bg-accent-cyan/8 text-accent-cyan'
+                    : 'border border-subtle text-text-secondary hover:border-accent-cyan/30 hover:text-text-primary'
                 }`}
-                style={active === s ? { background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' } : {}}
               >
                 {s}
               </button>
@@ -53,36 +51,36 @@ export default function WorkIndex() {
 
           <div className="grid gap-6 sm:grid-cols-2">
             {list.map((p) => (
-              <article key={p.slug} className="glass-card group overflow-hidden">
-                <div className="relative h-52 w-full overflow-hidden rounded-t-[var(--radius)]">
+              <article key={p.slug} className="bg-bg-surface border border-subtle rounded-xl overflow-hidden card-hover group flex flex-col">
+                <div className="relative h-52 w-full overflow-hidden">
                   <img src={p.img} alt={p.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  <div className="absolute left-3 top-3 rounded-full bg-black/60 backdrop-blur-sm px-3 py-1 text-xs text-white border border-white/10">
+                  <div className="absolute left-3 top-3 border border-subtle text-text-secondary text-xs px-3 py-1 rounded-full transition bg-bg-surface-2 backdrop-blur-md">
                     {p.tag}
                   </div>
                 </div>
-                <div className="p-5">
-                  <h3 className="text-base font-semibold text-white" style={{ fontFamily: 'var(--font-heading)' }}>{p.title}</h3>
-                  <p className="mt-2 text-sm text-neutral-400 leading-relaxed">{p.blurb}</p>
+                <div className="p-5 flex-1 flex flex-col">
+                  <h3 className="font-display font-semibold text-sm text-text-primary">{p.title}</h3>
+                  <p className="mt-2 text-sm text-text-secondary font-light leading-relaxed flex-1">{p.blurb}</p>
                   {p.tech && (
-                    <div className="mt-3 flex flex-wrap gap-1.5">
+                    <div className="mt-4 flex flex-wrap gap-1.5">
                       {p.tech.map((t) => (
-                        <span key={t} className="tech-badge">{t}</span>
+                        <span key={t} className="bg-bg-surface-2 text-text-muted text-[10px] px-2 py-0.5 rounded-full">{t}</span>
                       ))}
                     </div>
                   )}
-                  <div className="mt-4 flex gap-2">
+                  <div className="mt-5 flex flex-wrap gap-2">
                     {p.liveUrl && (
-                      <a href={p.liveUrl} target="_blank" rel="noopener noreferrer" className="rounded-full px-3.5 py-1.5 text-xs font-medium text-black transition-all hover:opacity-90" style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}>
+                      <a href={p.liveUrl} target="_blank" rel="noopener noreferrer" className="rounded-md bg-brand-gradient px-4 py-1.5 text-xs font-medium text-[#0a0a0f] transition-opacity hover:opacity-90">
                         View Live ↗
                       </a>
                     )}
                     {p.repoUrl && (
-                      <a href={p.repoUrl} target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/10 px-3.5 py-1.5 text-xs text-white/80 hover:border-white/30 transition-all">
+                      <a href={p.repoUrl} target="_blank" rel="noopener noreferrer" className="rounded-md border border-mid bg-bg-surface-2 px-4 py-1.5 text-xs font-medium text-text-primary transition-colors hover:border-accent-violet/40">
                         Source Code
                       </a>
                     )}
-                    <Link href={`/work/${p.slug}`} className="rounded-full border border-white/10 px-3.5 py-1.5 text-xs text-white/80 hover:border-white/30 transition-all">
+                    <Link href={`/work/${p.slug}`} className="rounded-md border border-mid bg-bg-surface-2 px-4 py-1.5 text-xs font-medium text-text-primary transition-colors hover:border-accent-violet/40">
                       Case Study
                     </Link>
                   </div>

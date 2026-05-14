@@ -15,13 +15,13 @@ export default function AboutPage() {
 	};
 
 	return (
-		<div className="min-h-screen bg-black text-white">
+		<div className="min-h-screen bg-bg-page text-text-primary">
 			<Container>
 				<Section>
 					<h1 className="text-4xl font-semibold">
 						About Vega Design Studio
 					</h1>
-					<p className="mt-3 max-w-2xl text-neutral-300">
+					<p className="mt-3 max-w-2xl text-text-secondary">
 						We help ambitious brands move faster—pairing elegant
 						design with intelligent systems. Guided by Vega, we aim
 						for clarity, performance, and real business outcomes.
@@ -31,7 +31,7 @@ export default function AboutPage() {
 				<Section className="pt-0 grid gap-8 md:grid-cols-3">
 					<div className="rounded-2xl border border-white/10 bg-white/5 p-6">
 						<h2 className="text-lg font-semibold">Principles</h2>
-						<ul className="mt-3 space-y-2 text-neutral-300 text-sm">
+						<ul className="mt-3 space-y-2 text-text-secondary text-sm">
 							<li>Clarity over noise</li>
 							<li>Performance as a feature</li>
 							<li>
@@ -42,7 +42,7 @@ export default function AboutPage() {
 					</div>
 					<div className="rounded-2xl border border-white/10 bg-white/5 p-6">
 						<h2 className="text-lg font-semibold">Capabilities</h2>
-						<ul className="mt-3 space-y-2 text-neutral-300 text-sm">
+						<ul className="mt-3 space-y-2 text-text-secondary text-sm">
 							<li>Brand identity & systems</li>
 							<li>Web design & Next.js builds</li>
 							<li>AI copilots, assistants & workflows</li>
@@ -50,7 +50,7 @@ export default function AboutPage() {
 					</div>
 					<div className="rounded-2xl border border-white/10 bg-white/5 p-6">
 						<h2 className="text-lg font-semibold">Approach</h2>
-						<p className="mt-3 text-neutral-300 text-sm">
+						<p className="mt-3 text-text-secondary text-sm">
 							Discovery → Design → Build → Iterate. We ship
 							quickly, then refine with data.
 						</p>

@@ -17,14 +17,14 @@ export function Container({ children }: SimpleProps) {
 
 export function Section({ children, className = "" }: ClassNameProps) {
 	return (
-		<section className={`py-16 sm:py-24 ${className}`}>{children}</section>
+		<section className={`py-20 md:py-28 ${className}`}>{children}</section>
 	);
 }
 
 export function Card({ children, className = "" }: ClassNameProps) {
 	return (
 		<div
-			className={`rounded-2xl border border-white/10 bg-white/5 p-6 ${className}`}
+			className={`bg-bg-surface border border-subtle rounded-lg p-5 card-hover ${className}`}
 		>
 			{children}
 		</div>
@@ -48,22 +48,22 @@ export function CallToAction({
 }: CallToActionProps) {
 	return (
 		<section
-			className={`rounded-2xl border border-white/10 bg-white/5 p-6 ${className}`}
+			className={`glass p-8 md:p-12 text-center w-full ${className}`}
 		>
-			<h3 className="text-lg font-semibold">{title}</h3>
-			<p className="mt-2 text-sm text-neutral-300">{blurb}</p>
-			<div className="mt-4 flex gap-3">
+			<h3 className="text-3xl md:text-4xl font-bold font-display"><span className="text-gradient">{title}</span></h3>
+			<p className="mt-4 text-lg text-text-secondary max-w-xl mx-auto">{blurb}</p>
+			<div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
 				<a
 					href={primaryHref}
 					target="_blank"
 					rel="noopener noreferrer"
-					className="inline-flex items-center rounded-full bg-white px-4 py-2 text-sm font-semibold text-black hover:opacity-90"
+					className="w-full sm:w-auto inline-flex items-center justify-center rounded-md bg-brand-gradient px-6 py-3 text-sm font-medium text-[#0a0a0f] hover:opacity-90 transition-opacity"
 				>
 					Book a call
 				</a>
 				<Link
 					href={secondaryHref}
-					className="inline-flex items-center rounded-full border border-white/20 px-4 py-2 text-sm text-white hover:bg-white/10"
+					className="w-full sm:w-auto inline-flex items-center justify-center rounded-md border border-mid bg-bg-surface-2 px-6 py-3 text-sm font-medium text-text-primary hover:border-accent-violet/40 transition-colors"
 				>
 					Email us
 				</Link>

@@ -180,7 +180,7 @@ const FAQS = [
 
 export default function ServicesPage() {
 	return (
-		<div className="min-h-screen bg-black text-white relative">
+		<div className="min-h-screen bg-bg-page text-text-primary relative">
 			{/* Ambient background */}
 			<div className="pointer-events-none absolute inset-0 -z-10">
 				<div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-cyan-500/[0.04] rounded-full blur-[120px]" />
@@ -209,13 +209,13 @@ export default function ServicesPage() {
 							<span className="brand-gradient-animated">for Trade Businesses</span>
 						</h1>
 
-						<p className="text-lg sm:text-xl text-neutral-400 leading-relaxed font-light max-w-2xl mx-auto">
+						<p className="text-lg sm:text-xl text-text-secondary leading-relaxed font-light max-w-2xl mx-auto">
 							Three tiers. Zero fluff. Every package is built to convert the owner standing on a
 							job site — not impress a VC. Pick the level that matches where your business is
 							today.
 						</p>
 
-						<div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 text-sm text-neutral-500">
+						<div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 text-sm text-text-muted">
 							<div className="flex items-center gap-1.5">
 								<Check className="h-4 w-4 text-cyan-400" />
 								No long-term lock-ins
@@ -269,7 +269,7 @@ export default function ServicesPage() {
 													className={`p-2.5 rounded-xl ${
 														tier.highlighted
 															? "bg-cyan-500/15 text-cyan-400"
-															: "bg-white/[0.06] text-neutral-300"
+															: "bg-white/[0.06] text-text-secondary"
 													}`}
 												>
 													<Icon className="h-5 w-5" />
@@ -279,14 +279,14 @@ export default function ServicesPage() {
 											{/* Name & tagline */}
 											<h3
 												className={`text-2xl sm:text-3xl font-bold font-heading mb-1 ${
-													tier.highlighted ? "text-white" : "text-white"
+													tier.highlighted ? "text-text-primary" : "text-text-primary"
 												}`}
 											>
 												{tier.name}
 											</h3>
 											<p
 												className={`text-sm mb-5 ${
-													tier.highlighted ? "text-cyan-400" : "text-neutral-400"
+													tier.highlighted ? "text-cyan-400" : "text-text-secondary"
 												}`}
 											>
 												{tier.tagline}
@@ -296,16 +296,16 @@ export default function ServicesPage() {
 											<div className="mb-5 pb-5 border-b border-white/[0.08]">
 												<div
 													className={`text-3xl sm:text-4xl font-bold font-heading ${
-														tier.highlighted ? "text-white" : "text-white"
+														tier.highlighted ? "text-text-primary" : "text-text-primary"
 													}`}
 												>
 													{tier.price}
 												</div>
-												<div className="text-xs text-neutral-500 mt-1">{tier.priceNote}</div>
+												<div className="text-xs text-text-muted mt-1">{tier.priceNote}</div>
 											</div>
 
 											{/* Description */}
-											<p className="text-sm sm:text-base text-neutral-400 leading-relaxed mb-6">
+											<p className="text-sm sm:text-base text-text-secondary leading-relaxed mb-6">
 												{tier.description}
 											</p>
 
@@ -317,7 +317,7 @@ export default function ServicesPage() {
 															className={`mt-0.5 flex-shrink-0 h-5 w-5 rounded-full flex items-center justify-center ${
 																tier.highlighted
 																	? "bg-cyan-500/20 text-cyan-400"
-																	: "bg-white/[0.06] text-neutral-400"
+																	: "bg-white/[0.06] text-text-secondary"
 															}`}
 														>
 															<Check className="h-3 w-3" />
@@ -325,12 +325,12 @@ export default function ServicesPage() {
 														<div>
 															<span
 																className={`block text-sm font-medium ${
-																	tier.highlighted ? "text-white" : "text-neutral-200"
+																	tier.highlighted ? "text-text-primary" : "text-neutral-200"
 																}`}
 															>
 																{f.label}
 															</span>
-															<span className="block text-xs text-neutral-500 mt-0.5">
+															<span className="block text-xs text-text-muted mt-0.5">
 																{f.detail}
 															</span>
 														</div>
@@ -347,7 +347,7 @@ export default function ServicesPage() {
 												className={`group inline-flex items-center justify-center gap-2 w-full rounded-full px-6 py-3.5 text-sm sm:text-base font-semibold transition-all duration-200 ${
 													tier.highlighted
 														? "bg-cyan-400 text-black hover:bg-cyan-300 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-400/40"
-														: "border border-white/20 text-white hover:bg-white/10 hover:border-white/40"
+														: "border border-white/20 text-text-primary hover:bg-white/10 hover:border-white/40"
 												}`}
 											>
 												<CalendarClock className="h-4 w-4" />
@@ -366,26 +366,26 @@ export default function ServicesPage() {
 						<div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-6 sm:p-8">
 							<div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 text-center">
 								<div>
-									<div className="text-2xl sm:text-3xl font-bold font-heading text-white mb-1">
+									<div className="text-2xl sm:text-3xl font-bold font-heading text-text-primary mb-1">
 										48h
 									</div>
-									<div className="text-sm text-neutral-400">
+									<div className="text-sm text-text-secondary">
 										Average response time on new inquiries
 									</div>
 								</div>
 								<div className="sm:border-l sm:border-r border-white/[0.08] sm:px-8">
-									<div className="text-2xl sm:text-3xl font-bold font-heading text-white mb-1">
+									<div className="text-2xl sm:text-3xl font-bold font-heading text-text-primary mb-1">
 										100%
 									</div>
-									<div className="text-sm text-neutral-400">
+									<div className="text-sm text-text-secondary">
 										Trade-industry clients — we know your buyer
 									</div>
 								</div>
 								<div>
-									<div className="text-2xl sm:text-3xl font-bold font-heading text-white mb-1">
+									<div className="text-2xl sm:text-3xl font-bold font-heading text-text-primary mb-1">
 										SFV
 									</div>
-									<div className="text-sm text-neutral-400">
+									<div className="text-sm text-text-secondary">
 										Local team, local knowledge, no outsourcing
 									</div>
 								</div>
@@ -399,7 +399,7 @@ export default function ServicesPage() {
 							<div className="section-label mb-3">Before You Book</div>
 							<h2
 								id="faq-heading"
-								className="text-2xl sm:text-3xl font-bold font-heading text-white"
+								className="text-2xl sm:text-3xl font-bold font-heading text-text-primary"
 							>
 								Common Questions
 							</h2>
@@ -411,10 +411,10 @@ export default function ServicesPage() {
 									key={faq.q}
 									className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-5 sm:p-6 hover:border-white/[0.15] transition-colors duration-200"
 								>
-									<h3 className="text-sm sm:text-base font-semibold text-white mb-2 font-heading">
+									<h3 className="text-sm sm:text-base font-semibold text-text-primary mb-2 font-heading">
 										{faq.q}
 									</h3>
-									<p className="text-sm text-neutral-400 leading-relaxed">{faq.a}</p>
+									<p className="text-sm text-text-secondary leading-relaxed">{faq.a}</p>
 								</div>
 							))}
 						</div>
@@ -429,10 +429,10 @@ export default function ServicesPage() {
 
 							<div className="relative z-10">
 								<div className="section-label mb-4">Ready to build?</div>
-								<h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-white mb-4">
+								<h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-text-primary mb-4">
 									Stop leaving leads on the table.
 								</h2>
-								<p className="text-base sm:text-lg text-neutral-400 max-w-xl mx-auto mb-8 leading-relaxed">
+								<p className="text-base sm:text-lg text-text-secondary max-w-xl mx-auto mb-8 leading-relaxed">
 									A 30-minute demo is all it takes to see exactly what we&apos;d build for your
 									business — and what it would cost. No pressure, no pitch deck.
 								</p>
@@ -451,13 +451,13 @@ export default function ServicesPage() {
 									</a>
 									<Link
 										href={`mailto:${BRAND.email}`}
-										className="inline-flex items-center gap-2 rounded-full border border-white/20 text-white px-8 py-4 text-base font-medium hover:bg-white/10 hover:border-white/40 transition-all duration-200"
+										className="inline-flex items-center gap-2 rounded-full border border-white/20 text-text-primary px-8 py-4 text-base font-medium hover:bg-white/10 hover:border-white/40 transition-all duration-200"
 									>
 										Or email us directly
 									</Link>
 								</div>
 
-								<p className="mt-6 text-xs text-neutral-600">
+								<p className="mt-6 text-xs text-text-muted">
 									Based in Granada Hills, CA · Serving the San Fernando Valley and greater LA
 								</p>
 							</div>

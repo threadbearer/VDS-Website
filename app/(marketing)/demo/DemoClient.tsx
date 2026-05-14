@@ -351,7 +351,7 @@ export default function DemoClient() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white relative">
+    <div className="min-h-screen bg-bg-page text-text-primary relative">
       {/* Ambient background glow */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className={`absolute top-20 left-1/3 w-[500px] h-[500px] rounded-full blur-[130px] transition-all duration-700 ${selectedIndustry.bgClass}`} />
@@ -378,14 +378,14 @@ export default function DemoClient() {
               The AI Agent <span className="brand-gradient-animated">Sandbox</span>
             </h1>
 
-            <p className="text-base sm:text-lg text-neutral-400 leading-relaxed max-w-xl mx-auto font-light">
+            <p className="text-base sm:text-lg text-text-secondary leading-relaxed max-w-xl mx-auto font-light">
               We design unique conversational architectures tailored to every industry. Choose a business vertical below to test-drive Alex in real-time.
             </p>
           </header>
 
           {/* ── Industry Selector ── */}
           <section className="max-w-5xl mx-auto mb-10 animate-fade-up delay-1">
-            <div className="p-1.5 bg-neutral-900/80 border border-neutral-800 rounded-2xl grid grid-cols-2 md:grid-cols-4 gap-2 shadow-2xl backdrop-blur-md">
+            <div className="p-1.5 bg-neutral-900/80 border border-subtle rounded-2xl grid grid-cols-2 md:grid-cols-4 gap-2 shadow-2xl backdrop-blur-md">
               {INDUSTRIES.map((ind) => {
                 const Icon = ind.icon;
                 const isSelected = selectedId === ind.id;
@@ -401,15 +401,15 @@ export default function DemoClient() {
                   >
                     <div className="flex items-center gap-2.5 mb-1 text-left w-full justify-center md:justify-start">
                       <div className={`p-1.5 rounded-lg transition-colors ${
-                        isSelected ? ind.bgClass + ' ' + ind.colorClass : 'bg-neutral-900 text-neutral-500 group-hover:text-neutral-300'
+                        isSelected ? ind.bgClass + ' ' + ind.colorClass : 'bg-neutral-900 text-text-muted group-hover:text-text-secondary'
                       }`}>
                         <Icon className="h-4 w-4" />
                       </div>
-                      <span className={`text-xs font-bold tracking-wide uppercase ${isSelected ? 'text-white' : 'text-neutral-500 group-hover:text-neutral-300'}`}>
+                      <span className={`text-xs font-bold tracking-wide uppercase ${isSelected ? 'text-text-primary' : 'text-text-muted group-hover:text-text-secondary'}`}>
                         {ind.label}
                       </span>
                     </div>
-                    <p className={`text-sm font-semibold mt-1 select-none ${isSelected ? 'text-white' : 'text-neutral-400'}`}>
+                    <p className={`text-sm font-semibold mt-1 select-none ${isSelected ? 'text-text-primary' : 'text-text-secondary'}`}>
                       {ind.name}
                     </p>
                   </button>
@@ -423,41 +423,41 @@ export default function DemoClient() {
             
             {/* Live "Prompt Preview" Container - 4 Cols */}
             <aside className="lg:col-span-5 flex flex-col gap-6 h-full">
-              <div className="flex-1 rounded-2xl border border-neutral-800 bg-neutral-950/90 shadow-xl overflow-hidden flex flex-col">
+              <div className="flex-1 rounded-2xl border border-subtle bg-neutral-950/90 shadow-xl overflow-hidden flex flex-col">
                 {/* Prompt Header */}
-                <div className="px-5 py-4 border-b border-neutral-800 flex items-center justify-between bg-neutral-900/50">
-                  <div className="flex items-center gap-2 text-neutral-300">
-                    <Terminal className="h-4 w-4 text-neutral-500" />
+                <div className="px-5 py-4 border-b border-subtle flex items-center justify-between bg-neutral-900/50">
+                  <div className="flex items-center gap-2 text-text-secondary">
+                    <Terminal className="h-4 w-4 text-text-muted" />
                     <span className="text-xs font-mono tracking-wider uppercase">Current Instructions</span>
                   </div>
                   <span className={`inline-flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse`} />
                 </div>
 
                 {/* Prompt Content */}
-                <div className="p-5 flex-1 overflow-y-auto font-mono text-[12px] leading-relaxed text-neutral-400 flex flex-col select-text">
-                  <div className="whitespace-pre-wrap p-3.5 rounded-xl bg-black/40 border border-neutral-900 text-neutral-300 h-full">
+                <div className="p-5 flex-1 overflow-y-auto font-mono text-[12px] leading-relaxed text-text-secondary flex flex-col select-text">
+                  <div className="whitespace-pre-wrap p-3.5 rounded-xl bg-bg-page/40 border border-subtle text-text-secondary h-full">
                     {selectedIndustry.systemPrompt}
                   </div>
-                  <p className="mt-4 text-[11px] text-neutral-500 leading-relaxed italic">
+                  <p className="mt-4 text-[11px] text-text-muted leading-relaxed italic">
                     Note: These system parameters program Alex&apos;s logic, constraints, and conversion checkpoints. Change the industry above to load a new behavior set.
                   </p>
                 </div>
               </div>
 
               {/* Demo Callout & Mini-CTA */}
-              <div className="rounded-2xl border border-neutral-800 bg-gradient-to-br from-neutral-900 to-black/40 p-6 relative overflow-hidden group">
-                <div className="absolute -right-6 -bottom-6 p-6 opacity-[0.02] text-white group-hover:scale-110 transition-transform duration-500">
+              <div className="rounded-2xl border border-subtle bg-gradient-to-br from-neutral-900 to-black/40 p-6 relative overflow-hidden group">
+                <div className="absolute -right-6 -bottom-6 p-6 opacity-[0.02] text-text-primary group-hover:scale-110 transition-transform duration-500">
                   <Bot className="h-32 w-32" />
                 </div>
-                <h3 className="text-base font-semibold mb-2 font-heading text-white">Want a Custom-Trained AI?</h3>
-                <p className="text-xs text-neutral-400 mb-4 leading-relaxed">
+                <h3 className="text-base font-semibold mb-2 font-heading text-text-primary">Want a Custom-Trained AI?</h3>
+                <p className="text-xs text-text-secondary mb-4 leading-relaxed">
                   Let us architect a tailored Alex persona for your unique trade pipeline. Ready for web, SMS, and voice dispatch.
                 </p>
                 <a
                   href={BOOKING}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-white text-black rounded-xl px-4 py-2.5 text-xs font-bold hover:bg-neutral-200 transition-colors shadow-lg shadow-white/10"
+                  className="inline-flex items-center gap-2 bg-bg-surface text-text-primary rounded-xl px-4 py-2.5 text-xs font-bold hover:bg-neutral-200 transition-colors shadow-lg shadow-white/10"
                 >
                   <CalendarClock className="h-3.5 w-3.5" />
                   Book a 15-Min Demo
@@ -468,32 +468,32 @@ export default function DemoClient() {
 
             {/* Centered Inline Chat Container - 7 Cols */}
             <main className="lg:col-span-7 flex flex-col min-h-[550px] lg:min-h-[620px]">
-              <div className="flex-1 rounded-2xl border border-neutral-800 bg-neutral-950/90 shadow-2xl flex flex-col overflow-hidden relative">
+              <div className="flex-1 rounded-2xl border border-subtle bg-neutral-950/90 shadow-2xl flex flex-col overflow-hidden relative">
                 
                 {/* Chat Header */}
-                <div className="px-5 py-4 border-b border-neutral-800 bg-neutral-900/50 flex items-center justify-between">
+                <div className="px-5 py-4 border-b border-subtle bg-neutral-900/50 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className={`relative flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full ${selectedIndustry.bgClass} border ${selectedIndustry.borderClass}`}>
                       <Bot className={`h-4.5 w-4.5 ${selectedIndustry.colorClass}`} />
                       <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-black"></span>
                     </div>
                     <div>
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-white">Alex | AI Sandbox</h3>
-                      <p className="text-[11px] text-neutral-500 font-medium mt-0.5">{selectedIndustry.tagline}</p>
+                      <h3 className="text-xs font-bold uppercase tracking-wider text-text-primary">Alex | AI Sandbox</h3>
+                      <p className="text-[11px] text-text-muted font-medium mt-0.5">{selectedIndustry.tagline}</p>
                     </div>
                   </div>
 
                   <button
                     onClick={handleReset}
                     title="Reset Conversation"
-                    className="p-2 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-500 hover:text-white hover:bg-neutral-800 transition-all duration-200 active:scale-95"
+                    className="p-2 rounded-lg bg-neutral-900 border border-subtle text-text-muted hover:text-text-primary hover:bg-neutral-800 transition-all duration-200 active:scale-95"
                   >
                     <RefreshCw className="h-4 w-4" />
                   </button>
                 </div>
 
                 {/* Chat History Thread */}
-                <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-black/20 scrollbar-thin scrollbar-thumb-neutral-800">
+                <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-bg-page/20 scrollbar-thin scrollbar-thumb-neutral-800">
                   {messages.map((msg) => {
                     const isUser = msg.role === 'user';
                     return (
@@ -503,7 +503,7 @@ export default function DemoClient() {
                       >
                         <div className={`flex items-end gap-2.5 max-w-[85%]`}>
                           {!isUser && (
-                            <div className={`h-7 w-7 shrink-0 flex items-center justify-center rounded-full bg-neutral-800 text-neutral-400 border border-neutral-700`}>
+                            <div className={`h-7 w-7 shrink-0 flex items-center justify-center rounded-full bg-neutral-800 text-text-secondary border border-neutral-700`}>
                               <Bot className="h-3.5 w-3.5" />
                             </div>
                           )}
@@ -511,7 +511,7 @@ export default function DemoClient() {
                             className={`px-4 py-3 rounded-2xl shadow-sm text-sm leading-relaxed tracking-normal font-sans transition-all ${
                               isUser
                                 ? 'rounded-br-none bg-neutral-100 text-neutral-950 shadow-neutral-900/40 font-medium'
-                                : `rounded-bl-none bg-neutral-900 text-neutral-200 border border-neutral-800`
+                                : `rounded-bl-none bg-neutral-900 text-neutral-200 border border-subtle`
                             }`}
                           >
                             {msg.content}
@@ -525,9 +525,9 @@ export default function DemoClient() {
                   {isLoading && (
                     <div className="flex justify-start items-center gap-2.5 animate-in fade-in duration-300">
                       <div className="h-7 w-7 shrink-0 flex items-center justify-center rounded-full bg-neutral-800 border border-neutral-700">
-                        <Bot className="h-3.5 w-3.5 text-neutral-400" />
+                        <Bot className="h-3.5 w-3.5 text-text-secondary" />
                       </div>
-                      <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-none bg-neutral-900 border border-neutral-800 px-4 py-3.5">
+                      <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-none bg-neutral-900 border border-subtle px-4 py-3.5">
                         <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-neutral-500 [animation-delay:-0.3s]"></div>
                         <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-neutral-500 [animation-delay:-0.15s]"></div>
                         <div className="h-1.5 w-1.5 animate-bounce rounded-full bg-neutral-500"></div>
@@ -546,21 +546,21 @@ export default function DemoClient() {
                 </div>
 
                 {/* Chat Input Box */}
-                <form onSubmit={handleSubmit} className="border-t border-neutral-800 bg-neutral-900/40 p-4 flex items-center gap-3">
+                <form onSubmit={handleSubmit} className="border-t border-subtle bg-neutral-900/40 p-4 flex items-center gap-3">
                   <input
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder={`Test reply to ${selectedIndustry.name} Alex...`}
                     disabled={isLoading}
-                    className="flex-1 min-w-0 rounded-xl border border-neutral-800 bg-neutral-950 px-4 py-3 text-sm text-white placeholder-neutral-600 shadow-inner focus:border-neutral-700 focus:bg-black focus:outline-none focus:ring-1 focus:ring-neutral-700 transition-all duration-200 disabled:opacity-60 font-sans"
+                    className="flex-1 min-w-0 rounded-xl border border-subtle bg-neutral-950 px-4 py-3 text-sm text-text-primary placeholder-neutral-600 shadow-inner focus:border-neutral-700 focus:bg-bg-page focus:outline-none focus:ring-1 focus:ring-neutral-700 transition-all duration-200 disabled:opacity-60 font-sans"
                   />
                   <button
                     type="submit"
                     disabled={!input.trim() || isLoading}
                     className={`flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl transition-all duration-300 ${
                       !input.trim() || isLoading
-                        ? 'bg-neutral-900 border border-neutral-800 text-neutral-600 cursor-not-allowed'
+                        ? 'bg-neutral-900 border border-subtle text-text-muted cursor-not-allowed'
                         : `${selectedIndustry.bgClass} ${selectedIndustry.colorClass} border ${selectedIndustry.borderClass} shadow-lg shadow-black/50 active:scale-95 hover:scale-[1.02]`
                     }`}
                     aria-label="Submit Message"
@@ -574,15 +574,15 @@ export default function DemoClient() {
 
           {/* Final CTA Banner */}
           <section className="mt-20 animate-fade-up delay-3 max-w-5xl mx-auto">
-            <div className="relative rounded-3xl overflow-hidden border border-neutral-800 bg-gradient-to-br from-neutral-900 to-black p-8 sm:p-12 text-center">
+            <div className="relative rounded-3xl overflow-hidden border border-subtle bg-gradient-to-br from-neutral-900 to-black p-8 sm:p-12 text-center">
               {/* Subdued glows */}
               <div className="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 w-[400px] h-[200px] bg-cyan-500/5 rounded-full blur-3xl" />
 
               <div className="relative z-10">
-                <h2 className="text-3xl sm:text-4xl font-bold font-heading text-white mb-3">
+                <h2 className="text-3xl sm:text-4xl font-bold font-heading text-text-primary mb-3">
                   Ready to convert visitors into revenue?
                 </h2>
-                <p className="text-sm sm:text-base text-neutral-400 max-w-lg mx-auto mb-8 leading-relaxed">
+                <p className="text-sm sm:text-base text-text-secondary max-w-lg mx-auto mb-8 leading-relaxed">
                   This sandbox demonstrates basic logic pipelines. When we deploy a real Automation Engine, it syncs with your CRM, sends follow-up texts, and connects to voice agents.
                 </p>
 
@@ -600,7 +600,7 @@ export default function DemoClient() {
                   </a>
                   <Link
                     href="/services"
-                    className="inline-flex items-center gap-2 rounded-full border border-neutral-800 text-neutral-300 px-7 py-3.5 text-sm font-medium hover:bg-neutral-900 transition-all duration-200"
+                    className="inline-flex items-center gap-2 rounded-full border border-subtle text-text-secondary px-7 py-3.5 text-sm font-medium hover:bg-neutral-900 transition-all duration-200"
                   >
                     Explore Services & Tiers
                   </Link>
@@ -614,8 +614,8 @@ export default function DemoClient() {
 
       {/* ── Conversion / Lead Capture Modal ── */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-          <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-neutral-800 bg-gradient-to-b from-neutral-900 to-neutral-950 p-6 sm:p-8 shadow-2xl shadow-black animate-scale-in flex flex-col select-none">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-bg-page/80 backdrop-blur-sm animate-fade-in">
+          <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-subtle bg-gradient-to-b from-neutral-900 to-neutral-950 p-6 sm:p-8 shadow-2xl shadow-black animate-scale-in flex flex-col select-none">
             {/* Top Gradient Glimmer */}
             <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
 
@@ -626,10 +626,10 @@ export default function DemoClient() {
                   <div className="mx-auto mb-3 h-11 w-11 rounded-full bg-cyan-500/10 flex items-center justify-center border border-cyan-500/25 text-cyan-400">
                     <Sparkles className="h-5 w-5 animate-pulse" />
                   </div>
-                  <h2 className="text-xl sm:text-2xl font-bold font-heading text-white leading-tight">
+                  <h2 className="text-xl sm:text-2xl font-bold font-heading text-text-primary leading-tight">
                     See Alex in action for your business?
                   </h2>
-                  <p className="text-xs text-neutral-400 mt-2 leading-relaxed max-w-sm mx-auto">
+                  <p className="text-xs text-text-secondary mt-2 leading-relaxed max-w-sm mx-auto">
                     You&apos;ve seen how Alex handles these industries. We can build a custom version specifically for your workflows in under 7 days.
                   </p>
                 </div>
@@ -637,11 +637,11 @@ export default function DemoClient() {
                 {/* Input Form */}
                 <form onSubmit={handleLeadSubmit} className="space-y-4.5 select-text">
                   <div>
-                    <label className="block text-[10px] font-bold tracking-wider uppercase text-neutral-500 mb-1.5 ml-1">
+                    <label className="block text-[10px] font-bold tracking-wider uppercase text-text-muted mb-1.5 ml-1">
                       Business Name
                     </label>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-neutral-600">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-text-muted">
                         <Building2 className="h-4 w-4" />
                       </div>
                       <input
@@ -650,17 +650,17 @@ export default function DemoClient() {
                         placeholder="e.g. SFV Electric"
                         value={leadData.businessName}
                         onChange={(e) => setLeadData({ ...leadData, businessName: e.target.value })}
-                        className="w-full bg-black/40 border border-neutral-800 focus:border-neutral-600 rounded-xl py-3 pl-10 pr-3 text-sm text-white placeholder-neutral-700 focus:outline-none transition-all shadow-inner"
+                        className="w-full bg-bg-page/40 border border-subtle focus:border-neutral-600 rounded-xl py-3 pl-10 pr-3 text-sm text-text-primary placeholder-neutral-700 focus:outline-none transition-all shadow-inner"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-[10px] font-bold tracking-wider uppercase text-neutral-500 mb-1.5 ml-1">
+                    <label className="block text-[10px] font-bold tracking-wider uppercase text-text-muted mb-1.5 ml-1">
                       Best Phone Number
                     </label>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-neutral-600">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-text-muted">
                         <Phone className="h-4 w-4" />
                       </div>
                       <input
@@ -669,24 +669,24 @@ export default function DemoClient() {
                         placeholder="(818) 555-0100"
                         value={leadData.phoneNumber}
                         onChange={(e) => setLeadData({ ...leadData, phoneNumber: e.target.value })}
-                        className="w-full bg-black/40 border border-neutral-800 focus:border-neutral-600 rounded-xl py-3 pl-10 pr-3 text-sm text-white placeholder-neutral-700 focus:outline-none transition-all shadow-inner"
+                        className="w-full bg-bg-page/40 border border-subtle focus:border-neutral-600 rounded-xl py-3 pl-10 pr-3 text-sm text-text-primary placeholder-neutral-700 focus:outline-none transition-all shadow-inner"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-[10px] font-bold tracking-wider uppercase text-neutral-500 mb-1.5 ml-1">
+                    <label className="block text-[10px] font-bold tracking-wider uppercase text-text-muted mb-1.5 ml-1">
                       Vertical / Industry
                     </label>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-neutral-600">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-text-muted">
                         <Briefcase className="h-4 w-4" />
                       </div>
                       <select
                         required
                         value={leadData.industry}
                         onChange={(e) => setLeadData({ ...leadData, industry: e.target.value })}
-                        className="w-full bg-black/40 border border-neutral-800 focus:border-neutral-600 rounded-xl py-3 pl-10 pr-8 text-sm text-white focus:outline-none appearance-none transition-all shadow-inner"
+                        className="w-full bg-bg-page/40 border border-subtle focus:border-neutral-600 rounded-xl py-3 pl-10 pr-8 text-sm text-text-primary focus:outline-none appearance-none transition-all shadow-inner"
                       >
                         <option value="" disabled className="bg-neutral-950">Select Vertical...</option>
                         <option value="Plumbing / HVAC" className="bg-neutral-950">Plumbing / HVAC</option>
@@ -696,7 +696,7 @@ export default function DemoClient() {
                         <option value="B2B / Agency" className="bg-neutral-950">B2B / Agency</option>
                         <option value="Other Trade" className="bg-neutral-950">Other Trade Industry</option>
                       </select>
-                      <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-neutral-500">
+                      <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-text-muted">
                         <ArrowRight className="h-3.5 w-3.5 rotate-90" />
                       </div>
                     </div>
@@ -721,7 +721,7 @@ export default function DemoClient() {
                     <button
                       type="button"
                       onClick={handleCloseModal}
-                      className="text-xs text-neutral-500 hover:text-white hover:underline transition-all py-1 cursor-pointer"
+                      className="text-xs text-text-muted hover:text-text-primary hover:underline transition-all py-1 cursor-pointer"
                     >
                       Continue Testing
                     </button>
@@ -733,16 +733,16 @@ export default function DemoClient() {
                 <div className="mb-4 h-12 w-12 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/25 text-emerald-400">
                   <CheckCircle2 className="h-6 w-6" />
                 </div>
-                <h2 className="text-xl sm:text-2xl font-bold font-heading text-white leading-snug mb-2">
+                <h2 className="text-xl sm:text-2xl font-bold font-heading text-text-primary leading-snug mb-2">
                   Lead Synced Successfully
                 </h2>
-                <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed mb-6 px-2 max-w-xs mx-auto">
+                <p className="text-xs sm:text-sm text-text-secondary leading-relaxed mb-6 px-2 max-w-xs mx-auto">
                   Thanks! Jacob from Vega will reach out shortly to set up your custom sandbox.
                 </p>
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="inline-flex items-center justify-center rounded-xl bg-neutral-800 text-white font-bold px-6 py-2.5 text-xs hover:bg-neutral-700 transition-colors cursor-pointer"
+                  className="inline-flex items-center justify-center rounded-xl bg-neutral-800 text-text-primary font-bold px-6 py-2.5 text-xs hover:bg-neutral-700 transition-colors cursor-pointer"
                 >
                   Return to Sandbox
                 </button>

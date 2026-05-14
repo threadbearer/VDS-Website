@@ -30,35 +30,34 @@ export default function Process() {
 		},
 	];
 	return (
-		<section className="py-20" style={{ background: 'var(--bg)' }}>
+		<section className="py-20 bg-bg-page">
 			<Container>
-				<div className="mb-10 text-center">
-					<div className="section-label">
+				<div className="mb-12 text-center">
+					<div className="text-[10px] font-medium uppercase tracking-widest text-text-muted mb-2">
 						Process
 					</div>
-					<h2 className="mt-2 text-3xl sm:text-4xl font-semibold text-white">
+					<h2 className="text-3xl md:text-4xl font-bold font-display tracking-tight text-text-primary">
 						Developed with speed and clarity
 					</h2>
 				</div>
-				<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+				<div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 relative">
+					{/* Connector line for large screens */}
+					<div className="hidden lg:block absolute top-10 left-[12%] right-[12%] bg-gradient-to-r from-accent-cyan to-accent-violet h-px z-0 opacity-40"></div>
+					
 					{steps.map((s, i) => (
 						<div
 							key={i}
-							className="glass-card p-6 relative"
+							className="relative z-10 flex flex-col items-center text-center sm:items-start sm:text-left"
 						>
-							<div
-								className="text-3xl font-bold mb-2 brand-gradient"
-								style={{ fontFamily: 'var(--font-heading)', opacity: 0.5 }}
-							>
+							<div className="font-display font-extrabold text-6xl text-text-muted/20 mb-4 tracking-tighter">
 								{s.k}
 							</div>
-							<div className="text-white font-medium">{s.t}</div>
-							<p className="mt-2 text-sm text-neutral-400 leading-relaxed">
+							<div className="font-display font-semibold text-base text-text-primary mb-2">
+								{s.t}
+							</div>
+							<p className="text-sm text-text-secondary font-light leading-relaxed">
 								{s.d}
 							</p>
-							{i < steps.length - 1 && (
-								<div className="hidden lg:block absolute top-1/2 -right-3 w-6 text-center text-neutral-600">→</div>
-							)}
 						</div>
 					))}
 				</div>
