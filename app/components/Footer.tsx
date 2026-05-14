@@ -1,5 +1,6 @@
 import { Container } from "@/ui/elements";
 import { BRAND } from "@/information";
+import Link from "next/link";
 
 export default function Footer() {
 	return (
@@ -14,7 +15,7 @@ export default function Footer() {
 							© {new Date().getFullYear()} Vega Design Studio • {BRAND.city}
 						</div>
 					</div>
-					<div className="flex items-center gap-6 text-sm text-neutral-500">
+					<div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-neutral-500 justify-center md:justify-end">
 						<a href={BRAND.phone} className="hover:text-white transition-colors">
 							{BRAND.contactNum}
 						</a>
@@ -24,6 +25,9 @@ export default function Footer() {
 						<a href={BRAND.github} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
 							GitHub
 						</a>
+						<Link href="/privacy" className="hover:text-white transition-colors">
+							Privacy
+						</Link>
 					</div>
 				</div>
 			</Container>
