@@ -6,7 +6,8 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function Image({ params }) {
-	const p = PROJECTS.find((x) => x.slug === params.slug);
+	const { slug } = await params;
+	const p = PROJECTS.find((x) => x.slug === slug);
 	const title = p?.title ?? "Vega Design Studio";
 	const tag = p?.tag ?? "Design • Web • AI";
 	return new ImageResponse(

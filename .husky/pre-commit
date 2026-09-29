@@ -1,0 +1,23 @@
+#!/bin/sh
+
+echo "======================================================"
+echo "🛡️  Running Knight Shift Pre-Commit Guardrails 🛡️"
+echo "======================================================"
+
+echo "\n[1/5] Auto-fixing lint issues..."
+git diff --name-only --cached --diff-filter=d | grep -E '\.(ts|tsx|js|jsx)$' | xargs -r npx eslint --fix || true
+git diff --name-only --cached --diff-filter=d | xargs -r git add
+
+echo "\n[2/5] Running TypeScript Compiler..."
+npx tsc --noEmit || exit 1
+
+echo "\n[3/5] Running Environment Variable Guard..."
+./scripts/audit-env.sh || exit 1
+
+echo "\n[4/5] Running Architecture & Health Scanner..."
+./scripts/audit-health.sh || exit 1
+
+echo "\n[5/5] Running Security Scanner..."
+./scripts/audit-security.sh || exit 1
+
+echo "\n✅ All guardrails passed! Commit accepted."

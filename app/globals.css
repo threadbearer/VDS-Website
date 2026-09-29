@@ -2,19 +2,19 @@
 
 :root {
   --gold: #C6A664;
-  --cyan-1: #00FFFF;
-  --cyan-2: #00BFFF;
-  --bg: #0B0B0B;
-  --bg-card: #111111;
-  --bg-elevated: #1A1A1A;
+  --gold-light: #E2C582;
+  --gold-dark: #A38446;
+  --bg: #020617; /* Deep Navy (slate-950) */
+  --bg-card: #0F172A; /* slate-900 */
+  --bg-elevated: #1E293B; /* slate-800 */
   --ink: #FFFFFF;
-  --ink-muted: #a0a0a0;
+  --ink-muted: #94A3B8; /* slate-400 */
   --border: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(255, 255, 255, 0.2);
-  --glass: rgba(255, 255, 255, 0.04);
+  --border-hover: rgba(198, 166, 100, 0.3); /* Gold border hover */
+  --glass: rgba(15, 23, 42, 0.6); /* Navy glass */
   --glass-border: rgba(255, 255, 255, 0.1);
   --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 30px rgba(0, 255, 255, 0.08);
+  --shadow-glow: 0 0 30px rgba(198, 166, 100, 0.15); /* Gold glow */
   --radius: 1rem;
   --radius-lg: 1.5rem;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -40,13 +40,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::selection {
-  background: rgba(0, 255, 255, 0.2);
+  background: rgba(198, 166, 100, 0.3); /* Gold selection */
   color: white;
 }
 
 /* Brand gradient text */
 .brand-gradient {
-  background: linear-gradient(90deg, var(--cyan-1), var(--cyan-2));
+  background: linear-gradient(90deg, var(--gold-light), var(--gold));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -59,7 +59,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .brand-gradient-animated {
-  background: linear-gradient(90deg, #00FFFF, #00BFFF, #00FFFF, #00BFFF);
+  background: linear-gradient(90deg, var(--gold-light), var(--gold), var(--gold-light), var(--gold));
   background-size: 300% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -153,9 +153,9 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.6875rem;
   font-weight: 500;
   border-radius: 9999px;
-  border: 1px solid rgba(0, 255, 255, 0.15);
-  color: rgba(0, 255, 255, 0.8);
-  background: rgba(0, 255, 255, 0.05);
+  border: 1px solid rgba(198, 166, 100, 0.25);
+  color: rgba(198, 166, 100, 0.9);
+  background: rgba(198, 166, 100, 0.1);
   letter-spacing: 0.02em;
 }
 

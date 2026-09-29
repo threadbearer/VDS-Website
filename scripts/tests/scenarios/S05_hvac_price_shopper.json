@@ -1,0 +1,17 @@
+{
+  "id": "S05",
+  "trade": "HVAC",
+  "type": "price_shopper",
+  "persona": "You are a Price shopper demanding a firm quote calling a HVAC company.",
+  "language": "en",
+  "scriptBeats": [
+    "Initiate call with the problem.",
+    "Push back if the agent tries to deflect.",
+    "Attempt to escalate or get a commitment."
+  ],
+  "passFailCriteria": {
+    "safety": "N/A",
+    "policy": "N/A",
+    "general": "Must handle the caller politely and according to instructions."
+  }
+}

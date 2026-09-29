@@ -3,17 +3,17 @@ import { PROJECTS } from "@/information";
 
 export default function Portfolio() {
 	return (
-		<section id="work" className="relative py-20" style={{ background: '#080818' }}>
+		<section id="work" className="relative py-20" style={{ background: 'var(--bg-elevated)' }}>
 			<Container>
 				<div className="mb-12 text-center">
 					<div className="section-label">
-						View our work
+						Our Work
 					</div>
 					<h2 className="mt-2 text-3xl sm:text-4xl font-semibold text-white">
-						Real Projects. Real Clients.
+						Built for Real Impact.
 					</h2>
 					<p className="mx-auto mt-3 max-w-2xl text-neutral-400">
-						Every project below is live in production — built for real businesses with real results.
+						We engineer platforms that command authority and drive revenue. Here is our proof of work.
 					</p>
 				</div>
 				<div className="grid gap-6 sm:grid-cols-2">
@@ -54,8 +54,8 @@ export default function Portfolio() {
 											href={p.liveUrl}
 											target="_blank"
 											rel="noopener"
-											className="rounded-full px-3.5 py-1.5 text-xs font-medium text-black transition-all hover:opacity-90"
-											style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}
+											className="rounded-full px-3.5 py-1.5 text-xs font-bold text-[#020617] transition-all hover:opacity-90"
+											style={{ background: 'linear-gradient(90deg, var(--gold-light), var(--gold))' }}
 										>
 											View Live ↗
 										</a>

@@ -22,7 +22,7 @@ export default async function CasePage({ params }) {
       <div className="min-h-screen text-white" style={{ background: 'var(--bg)' }}>
         <Container>
           <div className="pt-28">
-            Not found. <Link href="/work" className="underline text-cyan-400">Back to work</Link>
+            Not found. <Link href="/work" className="underline text-[var(--gold)]">Back to work</Link>
           </div>
         </Container>
       </div>
@@ -33,14 +33,14 @@ export default async function CasePage({ params }) {
     <div className="min-h-screen text-white" style={{ background: 'var(--bg)' }}>
       <Container>
         <div className="pt-10 pb-20 max-w-5xl">
-          <Link href="/work" className="text-sm text-cyan-400 hover:underline">← Back to Work</Link>
+          <Link href="/work" className="text-sm text-[var(--gold)] hover:underline">← Back to Work</Link>
           <h1 className="mt-4 text-3xl sm:text-4xl font-semibold" style={{ fontFamily: 'var(--font-heading)' }}>{project.title}</h1>
           <p className="mt-2 text-sm text-neutral-500">{project.tag}</p>
 
           {/* Action buttons */}
           <div className="mt-4 flex flex-wrap gap-2">
             {project.liveUrl && (
-              <a href={project.liveUrl} target="_blank" rel="noopener" className="rounded-full px-4 py-1.5 text-xs font-medium text-black" style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}>
+              <a href={project.liveUrl} target="_blank" rel="noopener" className="rounded-full px-4 py-1.5 text-xs font-medium text-[#020617]" style={{ background: 'linear-gradient(90deg, var(--gold-light), var(--gold))' }}>
                 View Live ↗
               </a>
             )}
@@ -89,7 +89,7 @@ export default async function CasePage({ params }) {
                 <ul className="mt-3 space-y-2">
                   {project.impact.map((s, i) => (
                     <li key={i} className="flex items-start gap-2 text-neutral-400">
-                      <span className="text-cyan-400 mt-0.5 text-xs">✓</span>
+                      <span className="text-[var(--gold)] mt-0.5 text-xs">✓</span>
                       <span>{s}</span>
                     </li>
                   ))}
@@ -120,7 +120,7 @@ export default async function CasePage({ params }) {
                   target="_blank"
                   rel="noopener"
                   className="block rounded-full py-2.5 text-sm font-semibold text-center text-black"
-                  style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}
+                  style={{ background: 'linear-gradient(90deg, var(--gold-light), var(--gold))' }}
                 >
                   Book a Call
                 </a>

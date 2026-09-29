@@ -8,8 +8,8 @@ export const BRAND = {
 	email: "jlegorreta@vegadesign.studio",
 	github: "https://github.com/threadbearer",
 	gold: "#C6A664",
-	dark: "#0B0B0B",
-	mid: "#1A1A1A",
+	dark: "#020617",
+	mid: "#0F172A",
 };
 export const PROJECTS = [
 	{

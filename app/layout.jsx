@@ -1,6 +1,7 @@
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import NavBar from './components/NavBar';
+import KnightShiftAgent from './components/KnightShiftAgent';
 
 export const metadata = {
   title: 'Vega Design Studio — Web, Design & AI',
@@ -38,6 +39,7 @@ export default function RootLayout({ children }) {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <NavBar/>
         {children}
+        <KnightShiftAgent />
         <Analytics />
       </body>
     </html>

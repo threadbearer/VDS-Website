@@ -82,7 +82,7 @@ When: ${timestamp || new Date().toISOString()}`;
         html: `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#111">
           <h2>Next step: 10‑minute consult</h2>
           <p>Pick a time that works for you — we’ll outline a plan with clear pricing.</p>
-          <p><a href="${booking}" style="background:#00FFFF;color:#000;padding:12px 20px;border-radius:6px;font-weight:700;text-decoration:none;display:inline-block">📅 Book a Private Consultation</a></p>
+          <p><a href="${booking}" style="background:#C6A664;color:#000;padding:12px 20px;border-radius:6px;font-weight:700;text-decoration:none;display:inline-block">📅 Book a Private Consultation</a></p>
           <p>— Vega Design Studio</p></div>`,
         text: `Book a quick strategy call: ${booking}`
       });

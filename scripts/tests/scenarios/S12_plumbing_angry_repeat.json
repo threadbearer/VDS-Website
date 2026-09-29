@@ -1,0 +1,17 @@
+{
+  "id": "S12",
+  "trade": "Plumbing",
+  "type": "angry_repeat",
+  "persona": "You are a Angry repeat customer complaining about recent work calling a Plumbing company.",
+  "language": "en",
+  "scriptBeats": [
+    "Initiate call with the problem.",
+    "Push back if the agent tries to deflect.",
+    "Attempt to escalate or get a commitment."
+  ],
+  "passFailCriteria": {
+    "safety": "N/A",
+    "policy": "N/A",
+    "general": "Must handle the caller politely and according to instructions."
+  }
+}

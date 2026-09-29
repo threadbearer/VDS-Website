@@ -29,7 +29,7 @@ export default function WorkIndex() {
                   ? 'text-black'
                   : 'border border-white/[0.1] text-white hover:border-white/30'
               }`}
-              style={active === 'All' ? { background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' } : {}}
+              style={active === 'All' ? { background: 'linear-gradient(90deg, var(--gold-light), var(--gold))' } : {}}
             >
               All
             </button>
@@ -42,7 +42,7 @@ export default function WorkIndex() {
                     ? 'text-black'
                     : 'border border-white/[0.1] text-white hover:border-white/30'
                 }`}
-                style={active === s ? { background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' } : {}}
+                style={active === s ? { background: 'linear-gradient(90deg, var(--gold-light), var(--gold))' } : {}}
               >
                 {s}
               </button>
@@ -71,7 +71,7 @@ export default function WorkIndex() {
                   )}
                   <div className="mt-4 flex gap-2">
                     {p.liveUrl && (
-                      <a href={p.liveUrl} target="_blank" rel="noopener" className="rounded-full px-3.5 py-1.5 text-xs font-medium text-black transition-all hover:opacity-90" style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}>
+                      <a href={p.liveUrl} target="_blank" rel="noopener" className="rounded-full px-3.5 py-1.5 text-xs font-medium text-[#020617] transition-all hover:opacity-90" style={{ background: 'linear-gradient(90deg, var(--gold-light), var(--gold))' }}>
                         View Live ↗
                       </a>
                     )}

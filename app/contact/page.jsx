@@ -1,5 +1,6 @@
 import { Container } from "@/ui/elements";
 import { BRAND, BOOKING } from "@/information";
+import ContactForm from "./ContactForm";
 
 export default function ContactPage() {
   return (
@@ -15,39 +16,7 @@ export default function ContactPage() {
           <div className="mt-10 grid gap-8 md:grid-cols-2">
             {/* Contact Form */}
             <div className="glass-card p-6">
-              <form
-                action="https://formspree.io/f/your-id"
-                method="POST"
-                className="space-y-4"
-              >
-                <input
-                  name="name"
-                  required
-                  placeholder="Your name"
-                  className="w-full rounded-xl bg-white/[0.04] border border-white/[0.08] p-3 text-sm text-white placeholder:text-neutral-500 outline-none focus:ring-1 focus:ring-cyan-400/30"
-                />
-                <input
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="Email"
-                  className="w-full rounded-xl bg-white/[0.04] border border-white/[0.08] p-3 text-sm text-white placeholder:text-neutral-500 outline-none focus:ring-1 focus:ring-cyan-400/30"
-                />
-                <textarea
-                  name="message"
-                  required
-                  placeholder="Project details"
-                  rows={5}
-                  className="w-full rounded-xl bg-white/[0.04] border border-white/[0.08] p-3 text-sm text-white placeholder:text-neutral-500 outline-none focus:ring-1 focus:ring-cyan-400/30"
-                />
-                <button
-                  type="submit"
-                  className="rounded-full px-5 py-2.5 text-sm font-semibold text-black transition-all hover:opacity-90"
-                  style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}
-                >
-                  Send Message
-                </button>
-              </form>
+              <ContactForm />
             </div>
 
             {/* Contact Info */}
@@ -62,7 +31,7 @@ export default function ContactPage() {
                   target="_blank"
                   rel="noopener"
                   className="inline-block rounded-full px-5 py-2.5 text-sm font-semibold text-black"
-                  style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}
+                  style={{ background: 'linear-gradient(90deg, var(--gold-light), var(--gold))' }}
                 >
                   Open Calendar
                 </a>

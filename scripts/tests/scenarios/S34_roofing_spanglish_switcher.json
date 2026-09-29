@@ -1,0 +1,17 @@
+{
+  "id": "S34",
+  "trade": "Roofing",
+  "type": "spanglish_switcher",
+  "persona": "You are a Spanglish code-switcher calling a Roofing company.",
+  "language": "spanglish",
+  "scriptBeats": [
+    "Initiate call with the problem.",
+    "Push back if the agent tries to deflect.",
+    "Attempt to escalate or get a commitment."
+  ],
+  "passFailCriteria": {
+    "safety": "N/A",
+    "policy": "N/A",
+    "general": "Must handle the caller politely and according to instructions."
+  }
+}

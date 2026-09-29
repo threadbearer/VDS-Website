@@ -4,23 +4,23 @@ export default function Process() {
 	const steps = [
 		{
 			k: "01",
-			t: "Discovery",
-			d: "Define goals, audience, and success metrics.",
+			t: "Discovery & Strategy",
+			d: "We map your operational bottlenecks and design systems to solve them.",
 		},
 		{
 			k: "02",
-			t: "Design Sprint",
-			d: "Rapid iterations on brand, design, and business solutions. Path plan in days, not weeks.",
+			t: "Rapid Prototyping",
+			d: "We design and validate the solution. No guesswork, just fast execution.",
 		},
 		{
 			k: "03",
-			t: "Build & QA",
-			d: "Build your solutions for review and approval.",
+			t: "Engineering & Integration",
+			d: "We build your platform or AI agents with zero technical debt.",
 		},
 		{
 			k: "04",
-			t: "Launch & Grow",
-			d: "Deploy your solutions. Monitor your results. We offer support for all of our solutions.",
+			t: "Deployment & Scaling",
+			d: "We deploy and monitor performance. As you grow, we scale the systems with you.",
 		},
 	];
 	return (
@@ -31,7 +31,7 @@ export default function Process() {
 						Process
 					</div>
 					<h2 className="mt-2 text-3xl sm:text-4xl font-semibold text-white">
-						Developed with speed and clarity
+						A Seamless, ROI-Driven Process
 					</h2>
 				</div>
 				<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">

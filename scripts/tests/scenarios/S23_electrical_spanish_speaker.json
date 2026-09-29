@@ -1,0 +1,17 @@
+{
+  "id": "S23",
+  "trade": "Electrical",
+  "type": "spanish_speaker",
+  "persona": "You are a Spanish only speaker needing service calling a Electrical company.",
+  "language": "es",
+  "scriptBeats": [
+    "Initiate call with the problem.",
+    "Push back if the agent tries to deflect.",
+    "Attempt to escalate or get a commitment."
+  ],
+  "passFailCriteria": {
+    "safety": "N/A",
+    "policy": "N/A",
+    "general": "Must handle the caller politely and according to instructions."
+  }
+}

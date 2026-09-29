@@ -8,7 +8,7 @@ export default function NavBar() {
 	const [menuOpen, setMenuOpen] = useState(false);
 
 	return (
-		<header className="sticky top-0 z-50 border-b border-white/[0.06]" style={{ background: 'rgba(11,11,11,0.85)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
+		<header className="sticky top-0 z-50 border-b border-white/[0.06]" style={{ background: 'rgba(2,6,23,0.85)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
 			<div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 				<div className="flex h-16 items-center justify-between">
 					<div className="flex items-center gap-3">
@@ -46,8 +46,8 @@ export default function NavBar() {
 							href={BOOKING}
 							target="_blank"
 							rel="noopener"
-							className="hidden sm:inline-flex rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 hover:opacity-90 hover:scale-[1.02]"
-							style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)', color: '#000' }}
+							className="hidden sm:inline-flex rounded-full px-4 py-1.5 text-sm font-bold transition-all duration-200 hover:opacity-90 hover:scale-[1.02]"
+							style={{ background: 'linear-gradient(90deg, var(--gold-light), var(--gold))', color: '#020617' }}
 						>
 							Book Consultation
 						</a>
@@ -69,7 +69,7 @@ export default function NavBar() {
 			{/* Mobile menu */}
 			<div
 				className={`md:hidden overflow-hidden transition-all duration-300 ease-out ${menuOpen ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'}`}
-				style={{ background: 'rgba(11,11,11,0.95)', backdropFilter: 'blur(16px)' }}
+				style={{ background: 'rgba(2,6,23,0.95)', backdropFilter: 'blur(16px)' }}
 			>
 				<nav className="flex flex-col px-6 py-4 gap-1 border-t border-white/[0.06]">
 					{[
@@ -92,8 +92,8 @@ export default function NavBar() {
 						href={BOOKING}
 						target="_blank"
 						rel="noopener"
-						className="mt-2 rounded-full px-4 py-2 text-sm font-medium text-center text-black"
-						style={{ background: 'linear-gradient(90deg, #00FFFF, #00BFFF)' }}
+						className="mt-2 rounded-full px-4 py-2 text-sm font-bold text-center text-[#020617]"
+						style={{ background: 'linear-gradient(90deg, var(--gold-light), var(--gold))' }}
 					>
 						Book Consultation
 					</a>

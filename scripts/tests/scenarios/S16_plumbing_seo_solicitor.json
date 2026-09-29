@@ -1,0 +1,17 @@
+{
+  "id": "S16",
+  "trade": "Plumbing",
+  "type": "seo_solicitor",
+  "persona": "You are a SEO solicitor trying to pitch marketing calling a Plumbing company.",
+  "language": "en",
+  "scriptBeats": [
+    "Initiate call with the problem.",
+    "Push back if the agent tries to deflect.",
+    "Attempt to escalate or get a commitment."
+  ],
+  "passFailCriteria": {
+    "safety": "N/A",
+    "policy": "N/A",
+    "general": "Must handle the caller politely and according to instructions."
+  }
+}
